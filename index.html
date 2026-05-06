@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<!-- saved from url=(0046)file:///C:/Users/Wesley/Downloads/index_6.html -->
-<html lang="zh-Hant"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- saved from url=(0046)file:///C:/Users/Wesley/Downloads/index_8.html -->
+<html lang="zh-Hant" style="--theme: #C0392B;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ScenePilgrim · 影視聖地巡禮</title>
@@ -154,15 +154,15 @@
 
   <!-- 作品切換 -->
   <div id="workBar">
-    <button class="work-btn active" onclick="switchWork(&#39;agent-from-above-2026&#39;)">🔴 乩身</button>
+    <button class="work-btn" onclick="switchWork(&#39;agent-from-above-2026&#39;)">🔴 乩身</button>
     <button class="work-btn" onclick="switchWork(&#39;light-the-night-2021&#39;)">🟣 華燈初上</button>
-    <button class="work-btn" onclick="switchWork(&#39;till-we-meet-again-2021&#39;)">❤️ 月老</button>
+    <button class="work-btn active" onclick="switchWork(&#39;till-we-meet-again-2021&#39;)">❤️ 月老</button>
   </div>
 
   <!-- 作品標題（動態更新） -->
-  <div id="workHeader">
-    <h1 id="workTitle">乩身 · 朝聖地圖</h1>
-    <div class="subtitle" id="workSubtitle">Agent from Above · 基隆 12 個場景</div>
+  <div id="workHeader" style="background: rgb(192, 57, 43);">
+    <h1 id="workTitle">月老 · 朝聖地圖</h1>
+    <div class="subtitle" id="workSubtitle">Till We Meet Again · 15 個場景</div>
   </div>
 
   <!-- 模式切換 -->
@@ -172,20 +172,157 @@
   </div>
 
   <!-- 篩選 -->
-  <div id="filter">
-    <select id="filterSelect"><option value="all">全部場景</option></select>
+  <div id="filter" style="display: block;">
+    <select id="filterSelect"><option value="all">全部場景（15）</option><option value="籃球場">籃球場</option><option value="廣場">廣場</option><option value="鐵路平交道">鐵路平交道</option><option value="街道">街道</option><option value="老街">老街</option><option value="攝影棚">攝影棚</option><option value="咖啡廳">咖啡廳</option><option value="漁港">漁港</option><option value="海濱公園">海濱公園</option><option value="廢棄工廠">廢棄工廠</option><option value="夜市">夜市</option><option value="公園">公園</option><option value="廟宇">廟宇</option><option value="觀景台">觀景台</option></select>
   </div>
 
   <!-- 路線說明 -->
   <div id="routeInfo" style="display:none">
-    <div class="route-title" id="routeTitle">🚶 朝聖路線</div>
-    <div class="route-meta" id="routeMeta"></div>
+    <div class="route-title" id="routeTitle">❤️ 月老朝聖一日遊</div>
+    <div class="route-meta" id="routeMeta">📍 從基隆車站出發
+🚶 步行＋公車 · 全天約 8 小時
+💡 建議帶紅線道具重現劇中場景</div>
   </div>
 
-  <div id="sceneList"></div>
+  <div id="sceneList"><div class="scene-card" data-id="b226053f-d0e7-4c3a-9e01-6f7e3ac13af4">
+      <div class="real-name">1. 蝙蝠洞公園籃球場</div>
+      
+      <div class="fictional-name">劇中：阿綸與小咪的決戰球場</div>
+      <div class="meta">
+        <span class="badge">籃球場</span>
+        <span class="badge cgi-partial">含特效</span>
+        <span class="badge confidence-official">官方</span>
+      </div>
+    </div><div class="scene-card" data-id="c2ae76e6-ff5d-4d0b-b9cd-c34935e72671">
+      <div class="real-name">2. 西門町紅樓廣場</div>
+      
+      <div class="fictional-name">劇中：月老舞慶典</div>
+      <div class="meta">
+        <span class="badge">廣場</span>
+        <span class="badge cgi-partial">含特效</span>
+        <span class="badge confidence-official">官方</span>
+      </div>
+    </div><div class="scene-card" data-id="6886e6bd-92b6-443a-9bbd-75365bcd3ead">
+      <div class="real-name">3. 基隆平交道（暖暖附近）</div>
+      
+      <div class="fictional-name">劇中：阿綸與阿魯催淚重逢</div>
+      <div class="meta">
+        <span class="badge">鐵路平交道</span>
+        <span class="badge cgi-partial">含特效</span>
+        <span class="badge confidence-estimated">待驗證</span>
+      </div>
+    </div><div class="scene-card" data-id="356e8e17-c4e5-45f4-8107-b74762b9e4a8">
+      <div class="real-name">4. 彰化市區老街</div>
+      
+      <div class="fictional-name">劇中：阿綸生前家鄉</div>
+      <div class="meta">
+        <span class="badge">街道</span>
+        <span class="badge cgi-none">純實景</span>
+        <span class="badge confidence-community">社群驗證</span>
+      </div>
+    </div><div class="scene-card" data-id="1b3d92e2-4c3c-4485-a8b4-c3fa7a1d9a66">
+      <div class="real-name">5. 九份老街</div>
+      
+      <div class="fictional-name">劇中：九份山城漫步</div>
+      <div class="meta">
+        <span class="badge">老街</span>
+        <span class="badge cgi-none">純實景</span>
+        <span class="badge confidence-official">官方</span>
+      </div>
+    </div><div class="scene-card" data-id="c0a66318-6594-47b7-9048-e258cb4b906f">
+      <div class="real-name">6. 攝影棚（搭景）</div>
+      
+      <div class="fictional-name">劇中：陰間接待處</div>
+      <div class="meta">
+        <span class="badge">攝影棚</span>
+        <span class="badge cgi-full">全CGI</span>
+        <span class="badge confidence-estimated">待驗證</span>
+      </div>
+    </div><div class="scene-card" data-id="fe39501c-ae9c-4726-b956-5f912b70b3e6">
+      <div class="real-name">7. 基隆市某咖啡廳</div>
+      
+      <div class="fictional-name">劇中：小咪的咖啡廳工作地</div>
+      <div class="meta">
+        <span class="badge">咖啡廳</span>
+        <span class="badge cgi-partial">含特效</span>
+        <span class="badge confidence-estimated">待驗證</span>
+      </div>
+    </div><div class="scene-card" data-id="4ef35843-9403-4f5b-8469-10776cd92570">
+      <div class="real-name">8. 基隆市某街道</div>
+      
+      <div class="fictional-name">劇中：阿綸被雷劈的地方</div>
+      <div class="meta">
+        <span class="badge">街道</span>
+        <span class="badge cgi-full">全CGI</span>
+        <span class="badge confidence-estimated">待驗證</span>
+      </div>
+    </div><div class="scene-card" data-id="66c5381e-1f96-4b23-b972-cf8c6401db95">
+      <div class="real-name">9. 基隆正濱漁港</div>
+      
+      <div class="fictional-name">劇中：月老前輩訓練場</div>
+      <div class="meta">
+        <span class="badge">漁港</span>
+        <span class="badge cgi-none">純實景</span>
+        <span class="badge confidence-official">官方</span>
+      </div>
+    </div><div class="scene-card" data-id="41f421ab-4671-4cd3-897b-2a3c297591bf">
+      <div class="real-name">10. 基隆和平島公園</div>
+      
+      <div class="fictional-name">劇中：阿綸小咪的海邊約會</div>
+      <div class="meta">
+        <span class="badge">海濱公園</span>
+        <span class="badge cgi-partial">含特效</span>
+        <span class="badge confidence-official">官方</span>
+      </div>
+    </div><div class="scene-card" data-id="3d2b1d52-978f-41ba-994b-65342a715f30">
+      <div class="real-name">11. 基隆阿根納造船廠</div>
+      
+      <div class="fictional-name">劇中：陰間牛頭馬面執行任務</div>
+      <div class="meta">
+        <span class="badge">廢棄工廠</span>
+        <span class="badge cgi-partial">含特效</span>
+        <span class="badge confidence-official">官方</span>
+      </div>
+    </div><div class="scene-card" data-id="b240644b-33ba-4232-9de4-a9c94ce5db86">
+      <div class="real-name">12. 基隆廟口夜市</div>
+      
+      <div class="fictional-name">劇中：月老執行任務的夜市</div>
+      <div class="meta">
+        <span class="badge">夜市</span>
+        <span class="badge cgi-none">純實景</span>
+        <span class="badge confidence-official">官方</span>
+      </div>
+    </div><div class="scene-card" data-id="85f031d2-3dc4-4c20-845d-5bbb7f337c7a">
+      <div class="real-name">13. 基隆中正公園</div>
+      
+      <div class="fictional-name">劇中：粉紅女的生前故事</div>
+      <div class="meta">
+        <span class="badge">公園</span>
+        <span class="badge cgi-none">純實景</span>
+        <span class="badge confidence-official">官方</span>
+      </div>
+    </div><div class="scene-card" data-id="a1b87851-b7dc-4c8f-92ab-2a90bed86b46">
+      <div class="real-name">14. 台北霞海城隍廟</div>
+      
+      <div class="fictional-name">劇中：台北霞海城隍廟</div>
+      <div class="meta">
+        <span class="badge">廟宇</span>
+        <span class="badge cgi-none">純實景</span>
+        <span class="badge confidence-official">官方</span>
+      </div>
+    </div><div class="scene-card" data-id="f646e18e-5193-4674-9278-5d1587b8f4fb">
+      <div class="real-name">15. 基隆虎仔山地標</div>
+      
+      <div class="fictional-name">劇中：阿綸求婚的地方</div>
+      <div class="meta">
+        <span class="badge">觀景台</span>
+        <span class="badge cgi-partial">含特效</span>
+        <span class="badge confidence-official">官方</span>
+      </div>
+    </div></div>
 </aside>
 
-<div id="map"></div>
+<div id="map" class="leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0" style="position: relative;"><div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 19; transform: translate3d(-331px, 298px, 0px) scale(1);"><img alt="" src="./index_files/1753.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(118px, 192px, 0px); opacity: 1;"><img alt="" src="./index_files/1753(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(374px, 192px, 0px); opacity: 1;"><img alt="" src="./index_files/1752.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(118px, -64px, 0px); opacity: 1;"><img alt="" src="./index_files/1752(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(374px, -64px, 0px); opacity: 1;"><img alt="" src="./index_files/1754.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(118px, 448px, 0px); opacity: 1;"><img alt="" src="./index_files/1754(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(374px, 448px, 0px); opacity: 1;"><img alt="" src="./index_files/1753(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-138px, 192px, 0px); opacity: 1;"><img alt="" src="./index_files/1753(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(630px, 192px, 0px); opacity: 1;"><img alt="" src="./index_files/1752(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-138px, -64px, 0px); opacity: 1;"><img alt="" src="./index_files/1752(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(630px, -64px, 0px); opacity: 1;"><img alt="" src="./index_files/1754(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-138px, 448px, 0px); opacity: 1;"><img alt="" src="./index_files/1754(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(630px, 448px, 0px); opacity: 1;"><img alt="" src="./index_files/1751.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(374px, -320px, 0px); opacity: 1;"><img alt="" src="./index_files/1751(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(118px, -320px, 0px); opacity: 1;"><img alt="" src="./index_files/1751(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(630px, -320px, 0px); opacity: 1;"><img alt="" src="./index_files/1752(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(886px, -64px, 0px); opacity: 1;"><img alt="" src="./index_files/1753(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(886px, 192px, 0px); opacity: 1;"><img alt="" src="./index_files/1751(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-138px, -320px, 0px); opacity: 1;"><img alt="" src="./index_files/1751(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(886px, -320px, 0px); opacity: 1;"><img alt="" src="./index_files/1754(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(886px, 448px, 0px); opacity: 1;"><img alt="" src="./index_files/1752(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1142px, -64px, 0px); opacity: 1;"><img alt="" src="./index_files/1753(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1142px, 192px, 0px); opacity: 1;"><img alt="" src="./index_files/1751(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1142px, -320px, 0px); opacity: 1;"><img alt="" src="./index_files/1754(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1142px, 448px, 0px); opacity: 1;"><img alt="" src="./index_files/1752(6).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1398px, -64px, 0px); opacity: 1;"><img alt="" src="./index_files/1751(6).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1398px, -320px, 0px); opacity: 1;"><img alt="" src="./index_files/1753(6).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1398px, 192px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-overlay-pane"></div><div class="leaflet-pane leaflet-shadow-pane"></div><div class="leaflet-pane leaflet-marker-pane"><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(831px, 436px, 0px); z-index: 436;"><div class="custom-marker" style="background:#C0392B"><span>1</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(-88px, 630px, 0px); z-index: 630;"><div class="custom-marker" style="background:#C0392B"><span>2</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(574px, 428px, 0px); z-index: 428;"><div class="custom-marker" style="background:#C0392B"><span>3</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(-2914px, 3712px, 0px); z-index: 3712;"><div class="custom-marker" style="background:#C0392B"><span>4</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(892px, 415px, 0px); z-index: 415;"><div class="custom-marker" style="background:#C0392B"><span>5</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(588px, 347px, 0px); z-index: 347;"><div class="custom-marker" style="background:#C0392B"><span>6</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(594px, 352px, 0px); z-index: 352;"><div class="custom-marker" style="background:#C0392B"><span>7</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(586px, 350px, 0px); z-index: 350;"><div class="custom-marker" style="background:#C0392B"><span>8</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(680px, 295px, 0px); z-index: 295;"><div class="custom-marker" style="background:#C0392B"><span>9</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(696px, 279px, 0px); z-index: 279;"><div class="custom-marker" style="background:#C0392B"><span>10</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(682px, 296px, 0px); z-index: 296;"><div class="custom-marker" style="background:#C0392B"><span>11</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(595px, 352px, 0px); z-index: 352;"><div class="custom-marker" style="background:#C0392B"><span>12</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(607px, 329px, 0px); z-index: 329;"><div class="custom-marker" style="background:#C0392B"><span>13</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(-81px, 581px, 0px); z-index: 581;"><div class="custom-marker" style="background:#C0392B"><span>14</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(585px, 332px, 0px); z-index: 332;"><div class="custom-marker" style="background:#C0392B"><span>15</span></div></div></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(878881px, 448625px, 0px) scale(2048);"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="file:///C:/Users/Wesley/Downloads/index_8.html#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="file:///C:/Users/Wesley/Downloads/index_8.html#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com/" title="A JavaScript library for interactive maps"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"></path><path fill="#FFD500" d="M0 4h12v3H0z"></path><path fill="#E0BC00" d="M0 7h12v1H0z"></path></svg> Leaflet</a> <span aria-hidden="true">|</span> © OpenStreetMap</div></div></div></div>
 
 <script>
 // ── Supabase ──
@@ -239,9 +376,7 @@ const WORKS = {
     zoom: 12,
     route: {
       title: '❤️ 月老朝聖一日遊',
-      meta: '📍 從基隆車站出發
-🚶 步行＋公車 · 全天約 8 小時
-💡 建議帶紅線道具重現劇中場景',
+      meta: '📍 從基隆車站出發\n🚶 步行＋公車 · 全天約 8 小時\n💡 建議帶紅線道具重現劇中場景',
       stops: [
         { real: '基隆虎仔山地標',   time: '09:00', note: 'KEELUNG 大字，俯瞰基隆港' },
         { real: '基隆正濱漁港',     time: '10:00', note: '彩色漁港，必拍' },
