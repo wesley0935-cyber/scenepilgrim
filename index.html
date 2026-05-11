@@ -1,671 +1,11 @@
 <!DOCTYPE html>
-<!-- saved from url=(0047)file:///C:/Users/Wesley/Downloads/index_30.html -->
-<html lang="zh-Hant"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- saved from url=(0047)file:///C:/Users/Wesley/Downloads/index_37.html -->
+<html lang="zh-Hant" style="--theme: #7A3520;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <title>C · 編輯雜誌感</title>
-<style>/* required styles */
 
-.leaflet-pane,
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-tile-container,
-.leaflet-pane > svg,
-.leaflet-pane > canvas,
-.leaflet-zoom-box,
-.leaflet-image-layer,
-.leaflet-layer {
-	position: absolute;
-	left: 0;
-	top: 0;
-	}
-.leaflet-container {
-	overflow: hidden;
-	}
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow {
-	-webkit-user-select: none;
-	   -moz-user-select: none;
-	        user-select: none;
-	  -webkit-user-drag: none;
-	}
-/* Prevents IE11 from highlighting tiles in blue */
-.leaflet-tile::selection {
-	background: transparent;
-}
-/* Safari renders non-retina tile on retina better with this, but Chrome is worse */
-.leaflet-safari .leaflet-tile {
-	image-rendering: -webkit-optimize-contrast;
-	}
-/* hack that prevents hw layers "stretching" when loading new tiles */
-.leaflet-safari .leaflet-tile-container {
-	width: 1600px;
-	height: 1600px;
-	-webkit-transform-origin: 0 0;
-	}
-.leaflet-marker-icon,
-.leaflet-marker-shadow {
-	display: block;
-	}
-/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */
-/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */
-.leaflet-container .leaflet-overlay-pane svg {
-	max-width: none !important;
-	max-height: none !important;
-	}
-.leaflet-container .leaflet-marker-pane img,
-.leaflet-container .leaflet-shadow-pane img,
-.leaflet-container .leaflet-tile-pane img,
-.leaflet-container img.leaflet-image-layer,
-.leaflet-container .leaflet-tile {
-	max-width: none !important;
-	max-height: none !important;
-	width: auto;
-	padding: 0;
-	}
-
-.leaflet-container img.leaflet-tile {
-	/* See: https://bugs.chromium.org/p/chromium/issues/detail?id=600120 */
-	mix-blend-mode: plus-lighter;
-}
-
-.leaflet-container.leaflet-touch-zoom {
-	-ms-touch-action: pan-x pan-y;
-	touch-action: pan-x pan-y;
-	}
-.leaflet-container.leaflet-touch-drag {
-	-ms-touch-action: pinch-zoom;
-	/* Fallback for FF which doesn't support pinch-zoom */
-	touch-action: none;
-	touch-action: pinch-zoom;
-}
-.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
-	-ms-touch-action: none;
-	touch-action: none;
-}
-.leaflet-container {
-	-webkit-tap-highlight-color: transparent;
-}
-.leaflet-container a {
-	-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
-}
-.leaflet-tile {
-	filter: inherit;
-	visibility: hidden;
-	}
-.leaflet-tile-loaded {
-	visibility: inherit;
-	}
-.leaflet-zoom-box {
-	width: 0;
-	height: 0;
-	-moz-box-sizing: border-box;
-	     box-sizing: border-box;
-	z-index: 800;
-	}
-/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */
-.leaflet-overlay-pane svg {
-	-moz-user-select: none;
-	}
-
-.leaflet-pane         { z-index: 400; }
-
-.leaflet-tile-pane    { z-index: 200; }
-.leaflet-overlay-pane { z-index: 400; }
-.leaflet-shadow-pane  { z-index: 500; }
-.leaflet-marker-pane  { z-index: 600; }
-.leaflet-tooltip-pane   { z-index: 650; }
-.leaflet-popup-pane   { z-index: 700; }
-
-.leaflet-map-pane canvas { z-index: 100; }
-.leaflet-map-pane svg    { z-index: 200; }
-
-.leaflet-vml-shape {
-	width: 1px;
-	height: 1px;
-	}
-.lvml {
-	behavior: url(#default#VML);
-	display: inline-block;
-	position: absolute;
-	}
-
-
-/* control positioning */
-
-.leaflet-control {
-	position: relative;
-	z-index: 800;
-	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
-	pointer-events: auto;
-	}
-.leaflet-top,
-.leaflet-bottom {
-	position: absolute;
-	z-index: 1000;
-	pointer-events: none;
-	}
-.leaflet-top {
-	top: 0;
-	}
-.leaflet-right {
-	right: 0;
-	}
-.leaflet-bottom {
-	bottom: 0;
-	}
-.leaflet-left {
-	left: 0;
-	}
-.leaflet-control {
-	float: left;
-	clear: both;
-	}
-.leaflet-right .leaflet-control {
-	float: right;
-	}
-.leaflet-top .leaflet-control {
-	margin-top: 10px;
-	}
-.leaflet-bottom .leaflet-control {
-	margin-bottom: 10px;
-	}
-.leaflet-left .leaflet-control {
-	margin-left: 10px;
-	}
-.leaflet-right .leaflet-control {
-	margin-right: 10px;
-	}
-
-
-/* zoom and fade animations */
-
-.leaflet-fade-anim .leaflet-popup {
-	opacity: 0;
-	-webkit-transition: opacity 0.2s linear;
-	   -moz-transition: opacity 0.2s linear;
-	        transition: opacity 0.2s linear;
-	}
-.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
-	opacity: 1;
-	}
-.leaflet-zoom-animated {
-	-webkit-transform-origin: 0 0;
-	    -ms-transform-origin: 0 0;
-	        transform-origin: 0 0;
-	}
-svg.leaflet-zoom-animated {
-	will-change: transform;
-}
-
-.leaflet-zoom-anim .leaflet-zoom-animated {
-	-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);
-	   -moz-transition:    -moz-transform 0.25s cubic-bezier(0,0,0.25,1);
-	        transition:         transform 0.25s cubic-bezier(0,0,0.25,1);
-	}
-.leaflet-zoom-anim .leaflet-tile,
-.leaflet-pan-anim .leaflet-tile {
-	-webkit-transition: none;
-	   -moz-transition: none;
-	        transition: none;
-	}
-
-.leaflet-zoom-anim .leaflet-zoom-hide {
-	visibility: hidden;
-	}
-
-
-/* cursors */
-
-.leaflet-interactive {
-	cursor: pointer;
-	}
-.leaflet-grab {
-	cursor: -webkit-grab;
-	cursor:    -moz-grab;
-	cursor:         grab;
-	}
-.leaflet-crosshair,
-.leaflet-crosshair .leaflet-interactive {
-	cursor: crosshair;
-	}
-.leaflet-popup-pane,
-.leaflet-control {
-	cursor: auto;
-	}
-.leaflet-dragging .leaflet-grab,
-.leaflet-dragging .leaflet-grab .leaflet-interactive,
-.leaflet-dragging .leaflet-marker-draggable {
-	cursor: move;
-	cursor: -webkit-grabbing;
-	cursor:    -moz-grabbing;
-	cursor:         grabbing;
-	}
-
-/* marker & overlays interactivity */
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-image-layer,
-.leaflet-pane > svg path,
-.leaflet-tile-container {
-	pointer-events: none;
-	}
-
-.leaflet-marker-icon.leaflet-interactive,
-.leaflet-image-layer.leaflet-interactive,
-.leaflet-pane > svg path.leaflet-interactive,
-svg.leaflet-image-layer.leaflet-interactive path {
-	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
-	pointer-events: auto;
-	}
-
-/* visual tweaks */
-
-.leaflet-container {
-	background: #ddd;
-	outline-offset: 1px;
-	}
-.leaflet-container a {
-	color: #0078A8;
-	}
-.leaflet-zoom-box {
-	border: 2px dotted #38f;
-	background: rgba(255,255,255,0.5);
-	}
-
-
-/* general typography */
-.leaflet-container {
-	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	font-size: 0.75rem;
-	line-height: 1.5;
-	}
-
-
-/* general toolbar styles */
-
-.leaflet-bar {
-	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
-	border-radius: 4px;
-	}
-.leaflet-bar a {
-	background-color: #fff;
-	border-bottom: 1px solid #ccc;
-	width: 26px;
-	height: 26px;
-	line-height: 26px;
-	display: block;
-	text-align: center;
-	text-decoration: none;
-	color: black;
-	}
-.leaflet-bar a,
-.leaflet-control-layers-toggle {
-	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	display: block;
-	}
-.leaflet-bar a:hover,
-.leaflet-bar a:focus {
-	background-color: #f4f4f4;
-	}
-.leaflet-bar a:first-child {
-	border-top-left-radius: 4px;
-	border-top-right-radius: 4px;
-	}
-.leaflet-bar a:last-child {
-	border-bottom-left-radius: 4px;
-	border-bottom-right-radius: 4px;
-	border-bottom: none;
-	}
-.leaflet-bar a.leaflet-disabled {
-	cursor: default;
-	background-color: #f4f4f4;
-	color: #bbb;
-	}
-
-.leaflet-touch .leaflet-bar a {
-	width: 30px;
-	height: 30px;
-	line-height: 30px;
-	}
-.leaflet-touch .leaflet-bar a:first-child {
-	border-top-left-radius: 2px;
-	border-top-right-radius: 2px;
-	}
-.leaflet-touch .leaflet-bar a:last-child {
-	border-bottom-left-radius: 2px;
-	border-bottom-right-radius: 2px;
-	}
-
-/* zoom control */
-
-.leaflet-control-zoom-in,
-.leaflet-control-zoom-out {
-	font: bold 18px 'Lucida Console', Monaco, monospace;
-	text-indent: 1px;
-	}
-
-.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {
-	font-size: 22px;
-	}
-
-
-/* layers control */
-
-.leaflet-control-layers {
-	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-	background: #fff;
-	border-radius: 5px;
-	}
-.leaflet-control-layers-toggle {
-	background-image: url("686595ff-43af-48cf-98b5-f35ca1fa54e1");
-	width: 36px;
-	height: 36px;
-	}
-.leaflet-retina .leaflet-control-layers-toggle {
-	background-image: url("ca463ef3-eef5-415f-a300-1febe5813384");
-	background-size: 26px 26px;
-	}
-.leaflet-touch .leaflet-control-layers-toggle {
-	width: 44px;
-	height: 44px;
-	}
-.leaflet-control-layers .leaflet-control-layers-list,
-.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
-	display: none;
-	}
-.leaflet-control-layers-expanded .leaflet-control-layers-list {
-	display: block;
-	position: relative;
-	}
-.leaflet-control-layers-expanded {
-	padding: 6px 10px 6px 6px;
-	color: #333;
-	background: #fff;
-	}
-.leaflet-control-layers-scrollbar {
-	overflow-y: scroll;
-	overflow-x: hidden;
-	padding-right: 5px;
-	}
-.leaflet-control-layers-selector {
-	margin-top: 2px;
-	position: relative;
-	top: 1px;
-	}
-.leaflet-control-layers label {
-	display: block;
-	font-size: 13px;
-	font-size: 1.08333em;
-	}
-.leaflet-control-layers-separator {
-	height: 0;
-	border-top: 1px solid #ddd;
-	margin: 5px -10px 5px -6px;
-	}
-
-/* Default icon URLs */
-.leaflet-default-icon-path { /* used only in path-guessing heuristic, see L.Icon.Default */
-	background-image: url("5526b7e1-4004-4031-aa2b-b744a99f2100");
-	}
-
-
-/* attribution and scale controls */
-
-.leaflet-container .leaflet-control-attribution {
-	background: #fff;
-	background: rgba(255, 255, 255, 0.8);
-	margin: 0;
-	}
-.leaflet-control-attribution,
-.leaflet-control-scale-line {
-	padding: 0 5px;
-	color: #333;
-	line-height: 1.4;
-	}
-.leaflet-control-attribution a {
-	text-decoration: none;
-	}
-.leaflet-control-attribution a:hover,
-.leaflet-control-attribution a:focus {
-	text-decoration: underline;
-	}
-.leaflet-attribution-flag {
-	display: inline !important;
-	vertical-align: baseline !important;
-	width: 1em;
-	height: 0.6669em;
-	}
-.leaflet-left .leaflet-control-scale {
-	margin-left: 5px;
-	}
-.leaflet-bottom .leaflet-control-scale {
-	margin-bottom: 5px;
-	}
-.leaflet-control-scale-line {
-	border: 2px solid #777;
-	border-top: none;
-	line-height: 1.1;
-	padding: 2px 5px 1px;
-	white-space: nowrap;
-	-moz-box-sizing: border-box;
-	     box-sizing: border-box;
-	background: rgba(255, 255, 255, 0.8);
-	text-shadow: 1px 1px #fff;
-	}
-.leaflet-control-scale-line:not(:first-child) {
-	border-top: 2px solid #777;
-	border-bottom: none;
-	margin-top: -2px;
-	}
-.leaflet-control-scale-line:not(:first-child):not(:last-child) {
-	border-bottom: 2px solid #777;
-	}
-
-.leaflet-touch .leaflet-control-attribution,
-.leaflet-touch .leaflet-control-layers,
-.leaflet-touch .leaflet-bar {
-	box-shadow: none;
-	}
-.leaflet-touch .leaflet-control-layers,
-.leaflet-touch .leaflet-bar {
-	border: 2px solid rgba(0,0,0,0.2);
-	background-clip: padding-box;
-	}
-
-
-/* popup */
-
-.leaflet-popup {
-	position: absolute;
-	text-align: center;
-	margin-bottom: 20px;
-	}
-.leaflet-popup-content-wrapper {
-	padding: 1px;
-	text-align: left;
-	border-radius: 12px;
-	}
-.leaflet-popup-content {
-	margin: 13px 24px 13px 20px;
-	line-height: 1.3;
-	font-size: 13px;
-	font-size: 1.08333em;
-	min-height: 1px;
-	}
-.leaflet-popup-content p {
-	margin: 17px 0;
-	margin: 1.3em 0;
-	}
-.leaflet-popup-tip-container {
-	width: 40px;
-	height: 20px;
-	position: absolute;
-	left: 50%;
-	margin-top: -1px;
-	margin-left: -20px;
-	overflow: hidden;
-	pointer-events: none;
-	}
-.leaflet-popup-tip {
-	width: 17px;
-	height: 17px;
-	padding: 1px;
-
-	margin: -10px auto 0;
-	pointer-events: auto;
-
-	-webkit-transform: rotate(45deg);
-	   -moz-transform: rotate(45deg);
-	    -ms-transform: rotate(45deg);
-	        transform: rotate(45deg);
-	}
-.leaflet-popup-content-wrapper,
-.leaflet-popup-tip {
-	background: white;
-	color: #333;
-	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
-	}
-.leaflet-container a.leaflet-popup-close-button {
-	position: absolute;
-	top: 0;
-	right: 0;
-	border: none;
-	text-align: center;
-	width: 24px;
-	height: 24px;
-	font: 16px/24px Tahoma, Verdana, sans-serif;
-	color: #757575;
-	text-decoration: none;
-	background: transparent;
-	}
-.leaflet-container a.leaflet-popup-close-button:hover,
-.leaflet-container a.leaflet-popup-close-button:focus {
-	color: #585858;
-	}
-.leaflet-popup-scrolled {
-	overflow: auto;
-	}
-
-.leaflet-oldie .leaflet-popup-content-wrapper {
-	-ms-zoom: 1;
-	}
-.leaflet-oldie .leaflet-popup-tip {
-	width: 24px;
-	margin: 0 auto;
-
-	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
-	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
-	}
-
-.leaflet-oldie .leaflet-control-zoom,
-.leaflet-oldie .leaflet-control-layers,
-.leaflet-oldie .leaflet-popup-content-wrapper,
-.leaflet-oldie .leaflet-popup-tip {
-	border: 1px solid #999;
-	}
-
-
-/* div icon */
-
-.leaflet-div-icon {
-	background: #fff;
-	border: 1px solid #666;
-	}
-
-
-/* Tooltip */
-/* Base styles for the element that has a tooltip */
-.leaflet-tooltip {
-	position: absolute;
-	padding: 6px;
-	background-color: #fff;
-	border: 1px solid #fff;
-	border-radius: 3px;
-	color: #222;
-	white-space: nowrap;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	pointer-events: none;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.4);
-	}
-.leaflet-tooltip.leaflet-interactive {
-	cursor: pointer;
-	pointer-events: auto;
-	}
-.leaflet-tooltip-top:before,
-.leaflet-tooltip-bottom:before,
-.leaflet-tooltip-left:before,
-.leaflet-tooltip-right:before {
-	position: absolute;
-	pointer-events: none;
-	border: 6px solid transparent;
-	background: transparent;
-	content: "";
-	}
-
-/* Directions */
-
-.leaflet-tooltip-bottom {
-	margin-top: 6px;
-}
-.leaflet-tooltip-top {
-	margin-top: -6px;
-}
-.leaflet-tooltip-bottom:before,
-.leaflet-tooltip-top:before {
-	left: 50%;
-	margin-left: -6px;
-	}
-.leaflet-tooltip-top:before {
-	bottom: 0;
-	margin-bottom: -12px;
-	border-top-color: #fff;
-	}
-.leaflet-tooltip-bottom:before {
-	top: 0;
-	margin-top: -12px;
-	margin-left: -6px;
-	border-bottom-color: #fff;
-	}
-.leaflet-tooltip-left {
-	margin-left: -6px;
-}
-.leaflet-tooltip-right {
-	margin-left: 6px;
-}
-.leaflet-tooltip-left:before,
-.leaflet-tooltip-right:before {
-	top: 50%;
-	margin-top: -6px;
-	}
-.leaflet-tooltip-left:before {
-	right: 0;
-	margin-right: -12px;
-	border-left-color: #fff;
-	}
-.leaflet-tooltip-right:before {
-	left: 0;
-	margin-left: -12px;
-	border-right-color: #fff;
-	}
-
-/* Printing */
-
-@media print {
-	/* Prevent printers from removing background-images of controls. */
-	.leaflet-control {
-		-webkit-print-color-adjust: exact;
-		print-color-adjust: exact;
-		}
-	}
-</style>
-<script src="file:///C:/Users/Wesley/Downloads/c07f43cc-31c8-4c56-8ade-b168cc5c225b"></script>
+<link rel="stylesheet" href="./index_files/leaflet.css">
+<script src="./index_files/leaflet.js.下載"></script>
 
 <style>
   :root {
@@ -717,15 +57,24 @@ svg.leaflet-image-layer.leaflet-interactive path {
   }
   .leaflet-control-attribution a { color: var(--theme) !important; }
 
+  .leaflet-div-icon {
+    background: transparent !important;
+    border: none !important;
+  }
+
+
   .marker {
     width: 36px; height: 36px;
-    background: var(--theme);
+    background: white;
     border-radius: 50%;
     display: grid; place-items: center;
-    color: white;
+    color: var(--pin-color, var(--theme)) !important;
     font-family: "Fraunces", serif;
-    font-size: 14px; font-weight: 600;
-    box-shadow: 0 0 0 3px white, 0 0 0 4px var(--theme), 0 8px 20px rgba(0,0,0,0.35);
+    font-size: 13px; font-weight: 700;
+    position: relative;
+    line-height: 1;
+    text-align: center;
+    box-shadow: 0 0 0 2.5px var(--pin-color, var(--theme)), 0 8px 20px rgba(0,0,0,0.35);
     cursor: pointer;
     transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease;
     transform-origin: center bottom;
@@ -733,8 +82,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
   }
   .marker.dim {
     background: white;
-    color: var(--theme);
+    color: var(--theme) !important;
     box-shadow: 0 0 0 2px var(--theme), 0 6px 14px rgba(0,0,0,0.25);
+    opacity: 0.75;
   }
   /* Pin hover — scale, lift, glow */
   .marker:hover {
@@ -754,6 +104,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
   }
   /* Active pin — gentle pulse halo */
   .marker.is-active {
+    background: var(--pin-color, var(--theme)) !important;
+    color: white !important;
     animation: pinPop 0.45s cubic-bezier(.34,1.56,.64,1);
   }
   .marker.is-active::after {
@@ -923,10 +275,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
   .editorial-tag {
     display: flex; align-items: center; gap: 10px;
     font-size: 10px;
-    color: var(--theme);
+    color: var(--muted);
     letter-spacing: 2.5px;
     margin-bottom: 12px;
     text-transform: uppercase;
+  }
+  .editorial-tag::before {
+    background: var(--muted) !important;
   }
   .editorial-tag::before {
     content: ""; width: 18px; height: 1px; background: var(--theme);
@@ -1263,9 +618,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
 </style>
 <script src="./index_files/supabase.js.下載"></script>
 </head>
-<body style="background-color: rgb(8, 9, 10)">
+<body style="background-color: rgb(8, 9, 10)" class="">
 
-<div id="map"></div>
+<div id="map" class="leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0" style=""><div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(270px, 14.9957px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 19; transform: translate3d(-927px, -343px, 0px) scale(1);"><img alt="" src="./index_files/14019.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1056px, 588px, 0px); opacity: 1;"><img alt="" src="./index_files/14019(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1312px, 588px, 0px); opacity: 1;"><img alt="" src="./index_files/14018.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1056px, 332px, 0px); opacity: 1;"><img alt="" src="./index_files/14018(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1312px, 332px, 0px); opacity: 1;"><img alt="" src="./index_files/14020.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1056px, 844px, 0px); opacity: 1;"><img alt="" src="./index_files/14020(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1312px, 844px, 0px); opacity: 1;"><img alt="" src="./index_files/14019(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(800px, 588px, 0px); opacity: 1;"><img alt="" src="./index_files/14019(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1568px, 588px, 0px); opacity: 1;"><img alt="" src="./index_files/14018(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(800px, 332px, 0px); opacity: 1;"><img alt="" src="./index_files/14018(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1568px, 332px, 0px); opacity: 1;"><img alt="" src="./index_files/14020(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(800px, 844px, 0px); opacity: 1;"><img alt="" src="./index_files/14020(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1568px, 844px, 0px); opacity: 1;"><img alt="" src="./index_files/14017.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1312px, 76px, 0px); opacity: 1;"><img alt="" src="./index_files/14017(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1056px, 76px, 0px); opacity: 1;"><img alt="" src="./index_files/14017(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1568px, 76px, 0px); opacity: 1;"><img alt="" src="./index_files/14018(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1824px, 332px, 0px); opacity: 1;"><img alt="" src="./index_files/14019(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1824px, 588px, 0px); opacity: 1;"><img alt="" src="./index_files/14017(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(800px, 76px, 0px); opacity: 1;"><img alt="" src="./index_files/14017(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1824px, 76px, 0px); opacity: 1;"><img alt="" src="./index_files/14020(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1824px, 844px, 0px); opacity: 1;"><img alt="" src="./index_files/14018(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(544px, 332px, 0px); opacity: 1;"><img alt="" src="./index_files/14018(6).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2080px, 332px, 0px); opacity: 1;"><img alt="" src="./index_files/14019(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(544px, 588px, 0px); opacity: 1;"><img alt="" src="./index_files/14019(6).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2080px, 588px, 0px); opacity: 1;"><img alt="" src="./index_files/14017(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(544px, 76px, 0px); opacity: 1;"><img alt="" src="./index_files/14017(6).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2080px, 76px, 0px); opacity: 1;"><img alt="" src="./index_files/14020(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(544px, 844px, 0px); opacity: 1;"><img alt="" src="./index_files/14020(6).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(2080px, 844px, 0px); opacity: 1;"></div><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 18; transform: translate3d(-152px, 37px, 0px) scale(0.5);"></div></div></div><div class="leaflet-pane leaflet-overlay-pane"></div><div class="leaflet-pane leaflet-shadow-pane"></div><div class="leaflet-pane leaflet-marker-pane"><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -18px; margin-top: -18px; width: 36px; height: 36px; transform: translate3d(453px, 418px, 0px); z-index: 418;"><div class="marker is-active" data-id="b3dc1e1e-d5a7-4b40-9178-3de505d72694" data-color="#7A3520" style="--pin-color:#7A3520">01</div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -18px; margin-top: -18px; width: 36px; height: 36px; transform: translate3d(408px, 408px, 0px); z-index: 408;"><div class="marker dim" data-id="0ac2ed35-32f1-4d97-9394-c678cb1b2e03" data-color="#7A3520" style="--pin-color:#7A3520">02</div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -18px; margin-top: -18px; width: 36px; height: 36px; transform: translate3d(471px, 421px, 0px); z-index: 421;"><div class="marker dim" data-id="ba35587c-f6d3-432e-90f3-cf7f47c7ca3b" data-color="#7A3520" style="--pin-color:#7A3520">03</div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -18px; margin-top: -18px; width: 36px; height: 36px; transform: translate3d(439px, 403px, 0px); z-index: 403;"><div class="marker dim" data-id="df93de8c-f954-4ea9-a407-4457908088fc" data-color="#7A3520" style="--pin-color:#7A3520">04</div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -18px; margin-top: -18px; width: 36px; height: 36px; transform: translate3d(373px, 331px, 0px); z-index: 331;"><div class="marker dim" data-id="bad55323-bb58-4a41-b802-2e766b0b027f" data-color="#7A3520" style="--pin-color:#7A3520">05</div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -18px; margin-top: -18px; width: 36px; height: 36px; transform: translate3d(397px, 426px, 0px); z-index: 426;"><div class="marker dim" data-id="326058f7-c719-4d46-b21e-c2082cb9b41b" data-color="#7A3520" style="--pin-color:#7A3520">06</div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -18px; margin-top: -18px; width: 36px; height: 36px; transform: translate3d(467px, 439px, 0px); z-index: 439;"><div class="marker dim" data-id="079a2843-667b-4213-8011-a4775be78643" data-color="#7A3520" style="--pin-color:#7A3520">07</div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -18px; margin-top: -18px; width: 36px; height: 36px; transform: translate3d(-1514px, 2055px, 0px); z-index: 2055;"><div class="marker dim" data-id="12e81a9d-023c-4466-8119-c4b90f3bb692" data-color="#7A3520" style="--pin-color:#7A3520">08</div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -18px; margin-top: -18px; width: 36px; height: 36px; transform: translate3d(-9879px, 5192px, 0px); z-index: 5192;"><div class="marker dim" data-id="f7409203-6431-4b8e-ba70-c16fa10ca8e5" data-color="#7A3520" style="--pin-color:#7A3520">09</div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -18px; margin-top: -18px; width: 36px; height: 36px; transform: translate3d(420px, 395px, 0px); z-index: 395;"><div class="marker dim" data-id="b55adf5a-3a16-4295-8a31-552a2d7ce627" data-color="#7A3520" style="--pin-color:#7A3520">10</div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -18px; margin-top: -18px; width: 36px; height: 36px; transform: translate3d(327px, 305px, 0px); z-index: 305;"><div class="marker dim" data-id="61cc8791-17c9-4a69-867f-9449c30427f7" data-color="#7A3520" style="--pin-color:#7A3520">11</div></div><div class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -18px; margin-top: -18px; width: 36px; height: 36px; transform: translate3d(448px, 424px, 0px); z-index: 424;"><div class="marker dim" data-id="4412bb95-ae41-4ada-b99f-2a62782d938a" data-color="#7A3520" style="--pin-color:#7A3520">12</div></div></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(7.03115e+06px, 3.58895e+06px, 0px) scale(16384);"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="file:///C:/Users/Wesley/Downloads/index_37.html#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="file:///C:/Users/Wesley/Downloads/index_37.html#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com/" title="A JavaScript library for interactive maps"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"></path><path fill="#FFD500" d="M0 4h12v3H0z"></path><path fill="#E0BC00" d="M0 7h12v1H0z"></path></svg> Leaflet</a></div></div></div></div>
 
 <!-- Top nav -->
 <div class="nav">
@@ -1328,7 +683,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     <div class="editorial-en">Agent from Above · 基隆</div>
     <div class="editorial-stats">
       <div class="stat"><div class="stat-num">12</div><div class="stat-lbl">Scenes</div></div>
-      <div class="stat"><div class="stat-num">08</div><div class="stat-lbl">Verified</div></div>
+      <div class="stat"><div class="stat-num">8</div><div class="stat-lbl">Verified</div></div>
       <div class="stat"><div class="stat-num">8h</div><div class="stat-lbl">Day Trip</div></div>
     </div>
   </div>
@@ -1338,8 +693,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
     <button class="mode"><span class="mode-num">09</span> 一日遊路線</button>
   </div>
 
-  <div class="scenes">
-    <div class="scene active" data-idx="0" data-num="01" data-real="代明宮" data-fictional="東風市場宮廟" data-cover="linear-gradient(135deg,#4a1810,#1a0808)">
+  <div class="scenes"><div class="scene active" data-id="b3dc1e1e-d5a7-4b40-9178-3de505d72694" data-idx="0">
       <div class="scene-num">01<small>SCENE</small></div>
       <div>
         <div class="scene-real">代明宮</div>
@@ -1347,47 +701,43 @@ svg.leaflet-image-layer.leaflet-interactive path {
         <div class="scene-meta">
           <span class="badge">宮廟</span>
           <span class="badge cgi-partial">含特效</span>
-          <span class="scene-time">11:00</span>
+          
         </div>
       </div>
-    </div>
-    <div class="scene" data-idx="1" data-num="02" data-real="罾仔頂三連棟" data-fictional="市井追逐巷" data-cover="linear-gradient(135deg,#2a1a14,#0a0a0a)">
+    </div><div class="scene" data-id="0ac2ed35-32f1-4d97-9394-c678cb1b2e03" data-idx="1">
       <div class="scene-num">02<small>SCENE</small></div>
       <div>
         <div class="scene-real">罾仔頂三連棟</div>
         <div class="scene-fictional">市井追逐巷</div>
         <div class="scene-meta">
-          <span class="badge">街道</span>
+          <span class="badge">街道建築</span>
           <span class="badge cgi-none">純實景</span>
-          <span class="scene-time">09:30</span>
+          
         </div>
       </div>
-    </div>
-    <div class="scene" data-idx="2" data-num="03" data-real="東和大樓" data-fictional="東風市場原型" data-cover="linear-gradient(135deg,#3a2014,#1a0a0a)">
+    </div><div class="scene" data-id="ba35587c-f6d3-432e-90f3-cf7f47c7ca3b" data-idx="2">
       <div class="scene-num">03<small>SCENE</small></div>
       <div>
         <div class="scene-real">東和大樓</div>
         <div class="scene-fictional">東風市場原型</div>
         <div class="scene-meta">
-          <span class="badge">老建築</span>
+          <span class="badge">老舊建築</span>
           <span class="badge cgi-partial">含特效</span>
-          <span class="scene-time">10:00</span>
+          
         </div>
       </div>
-    </div>
-    <div class="scene" data-idx="3" data-num="04" data-real="吉祥大樓" data-fictional="老公寓" data-cover="linear-gradient(135deg,#1f1a1a,#0a0808)">
+    </div><div class="scene" data-id="df93de8c-f954-4ea9-a407-4457908088fc" data-idx="3">
       <div class="scene-num">04<small>SCENE</small></div>
       <div>
         <div class="scene-real">吉祥大樓</div>
         <div class="scene-fictional">老公寓</div>
         <div class="scene-meta">
-          <span class="badge">老建築</span>
+          <span class="badge">老舊建築</span>
           <span class="badge cgi-none">純實景</span>
-          <span class="scene-time">10:30</span>
+          
         </div>
       </div>
-    </div>
-    <div class="scene" data-idx="4" data-num="05" data-real="基隆港西二碼頭" data-fictional="港口對峙" data-cover="linear-gradient(135deg,#142a3a,#08121f)">
+    </div><div class="scene" data-id="bad55323-bb58-4a41-b802-2e766b0b027f" data-idx="4">
       <div class="scene-num">05<small>SCENE</small></div>
       <div>
         <div class="scene-real">基隆港西二碼頭</div>
@@ -1395,23 +745,21 @@ svg.leaflet-image-layer.leaflet-interactive path {
         <div class="scene-meta">
           <span class="badge">港口</span>
           <span class="badge cgi-partial">含特效</span>
-          <span class="scene-time">16:30</span>
+          
         </div>
       </div>
-    </div>
-    <div class="scene" data-idx="5" data-num="06" data-real="基隆委託行商圈" data-fictional="人鬼混雜市集" data-cover="linear-gradient(135deg,#2a1830,#0f0814)">
+    </div><div class="scene" data-id="326058f7-c719-4d46-b21e-c2082cb9b41b" data-idx="5">
       <div class="scene-num">06<small>SCENE</small></div>
       <div>
         <div class="scene-real">基隆委託行商圈</div>
         <div class="scene-fictional">人鬼混雜市集</div>
         <div class="scene-meta">
-          <span class="badge">商圈</span>
+          <span class="badge">市集商圈</span>
           <span class="badge cgi-none">純實景</span>
-          <span class="scene-time">13:30</span>
+          
         </div>
       </div>
-    </div>
-    <div class="scene" data-idx="6" data-num="07" data-real="基隆護國城隍廟" data-fictional="邪派廟宇" data-cover="linear-gradient(135deg,#3a1820,#14080a)">
+    </div><div class="scene" data-id="079a2843-667b-4213-8011-a4775be78643" data-idx="6">
       <div class="scene-num">07<small>SCENE</small></div>
       <div>
         <div class="scene-real">基隆護國城隍廟</div>
@@ -1419,27 +767,81 @@ svg.leaflet-image-layer.leaflet-interactive path {
         <div class="scene-meta">
           <span class="badge">宮廟</span>
           <span class="badge cgi-partial">含特效</span>
-          <span class="scene-time">14:30</span>
+          
         </div>
       </div>
-    </div>
-  </div>
+    </div><div class="scene" data-id="12e81a9d-023c-4466-8119-c4b90f3bb692" data-idx="7">
+      <div class="scene-num">08<small>SCENE</small></div>
+      <div>
+        <div class="scene-real">汐止拱北殿</div>
+        <div class="scene-fictional">三太子廟</div>
+        <div class="scene-meta">
+          <span class="badge">宮廟</span>
+          <span class="badge cgi-none">純實景</span>
+          
+        </div>
+      </div>
+    </div><div class="scene" data-id="f7409203-6431-4b8e-ba70-c16fa10ca8e5" data-idx="8">
+      <div class="scene-num">09<small>SCENE</small></div>
+      <div>
+        <div class="scene-real">中影文化城 LED 虛擬棚</div>
+        <div class="scene-fictional">地獄場景</div>
+        <div class="scene-meta">
+          <span class="badge">攝影棚</span>
+          <span class="badge cgi-full">全CGI</span>
+          
+        </div>
+      </div>
+    </div><div class="scene" data-id="b55adf5a-3a16-4295-8a31-552a2d7ce627" data-idx="9">
+      <div class="scene-num">10<small>SCENE</small></div>
+      <div>
+        <div class="scene-real">基隆旭川河岸</div>
+        <div class="scene-fictional">夜間河岸</div>
+        <div class="scene-meta">
+          <span class="badge">河岸街道</span>
+          <span class="badge cgi-none">純實景</span>
+          
+        </div>
+      </div>
+    </div><div class="scene" data-id="61cc8791-17c9-4a69-867f-9449c30427f7" data-idx="10">
+      <div class="scene-num">11<small>SCENE</small></div>
+      <div>
+        <div class="scene-real">基隆中山陸橋</div>
+        <div class="scene-fictional">追逐陸橋</div>
+        <div class="scene-meta">
+          <span class="badge">交通設施</span>
+          <span class="badge cgi-none">純實景</span>
+          
+        </div>
+      </div>
+    </div><div class="scene" data-id="4412bb95-ae41-4ada-b99f-2a62782d938a" data-idx="11">
+      <div class="scene-num">12<small>SCENE</small></div>
+      <div>
+        <div class="scene-real">基隆廟口夜市</div>
+        <div class="scene-fictional">便衣行動夜市</div>
+        <div class="scene-meta">
+          <span class="badge">夜市</span>
+          <span class="badge cgi-none">純實景</span>
+          
+        </div>
+      </div>
+    </div></div>
 </aside>
 
 <!-- Featured scene -->
 <div class="featured">
   <button class="featured-collapse" onclick="document.body.classList.add(&#39;hide-right&#39;)" title="收起詳情">→</button>
-  <div class="featured-cover">
-    <div class="featured-num">01</div>
+  <div class="featured-cover" style="background: linear-gradient(transparent 50%, rgba(20, 20, 26, 0.9) 100%), linear-gradient(135deg, rgb(42, 8, 8), rgb(26, 8, 8));">
+    <div class="featured-num swap-target">01</div>
     <div class="featured-label">— Scene still placeholder —</div>
   </div>
   <div class="featured-body">
     <div class="featured-tag">NOW VIEWING</div>
-    <div class="featured-name">代明宮</div>
-    <div class="featured-fictional">↳ 劇中：東風市場宮廟</div>
+    <div class="featured-name swap-target">代明宮</div>
+    <div class="featured-fictional swap-target">↳ 劇中：東風市場宮廟</div>
     <div class="featured-actions">
-      <button class="featured-btn">📍 我來朝聖</button>
-      <button class="featured-btn ghost">導航 ↗</button>
+      <button class="featured-btn" onclick="openCheckin(&#39;b3dc1e1e-d5a7-4b40-9178-3de505d72694&#39;, &#39;代明宮&#39;)">📍 我來朝聖</button>
+      <button class="featured-btn ghost" onclick="window.open(&#39;https://www.google.com/maps/dir/?api=1&amp;destination=25.1286,121.7424&#39;,&#39;_blank&#39;)">導航 ↗</button>
     </div>
 
     <div class="compare">
@@ -1585,7 +987,7 @@ function addMarker(scene, idx, isActive, isRoute) {
   const m = L.marker([scene.lat, scene.lng], {
     icon: L.divIcon({
       className: '',
-      html: `<div class="marker${isActive ? ' is-active' : ' dim'}" data-id="${scene.id}" style="background:${isRoute ? '#2A3A5A' : color}">${scene.num}</div>`,
+      html: `<div class="marker${isActive ? ' is-active' : ' dim'}" data-id="${scene.id}" data-color="${isRoute ? '#2A3A5A' : color}" style="--pin-color:${isRoute ? '#2A3A5A' : color}">${scene.num}</div>`,
       iconSize: [36, 36], iconAnchor: [18, 18]
     })
   }).addTo(map);
