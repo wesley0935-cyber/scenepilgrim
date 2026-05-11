@@ -1,1121 +1,1934 @@
 <!DOCTYPE html>
-<!-- saved from url=(0047)file:///C:/Users/Wesley/Downloads/index_26.html -->
-<html lang="zh-Hant" style="--theme: #7A3520;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ScenePilgrim · 影視聖地巡禮</title>
-  <link rel="stylesheet" href="./index_files/leaflet.css">
-  <script src="./index_files/leaflet.js.下載"></script>
-  <script src="./index_files/supabase.js.下載"></script>
-  <style>
-    :root {
-      --theme: #7A3520;
-      --bg: #faf7f2;
-      --text: #1a1a1a;
-      --muted: #6b6b6b;
-      --card: #ffffff;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
-      background: var(--bg); color: var(--text);
-      display: flex; height: 100vh; overflow: hidden;
-    }
+<!-- saved from url=(0047)file:///C:/Users/Wesley/Downloads/index_30.html -->
+<html lang="zh-Hant"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    /* ── 左側 ── */
-    #sidebar {
-      width: 360px; background: var(--card);
-      border-right: 1px solid #eee; overflow-y: auto; flex-shrink: 0;
-    }
+<title>C · 編輯雜誌感</title>
+<style>/* required styles */
 
-    /* 頂部 APP 標題 */
-    #appHeader {
-      padding: 14px 20px 10px;
-      background: #1a1a1a;
-      color: white;
-    }
-    #appHeader .app-name { font-size: 18px; font-weight: 700; letter-spacing: 1px; }
-    #appHeader .app-sub  { font-size: 11px; opacity: 0.6; margin-top: 2px; }
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+	position: absolute;
+	left: 0;
+	top: 0;
+	}
+.leaflet-container {
+	overflow: hidden;
+	}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	        user-select: none;
+	  -webkit-user-drag: none;
+	}
+/* Prevents IE11 from highlighting tiles in blue */
+.leaflet-tile::selection {
+	background: transparent;
+}
+/* Safari renders non-retina tile on retina better with this, but Chrome is worse */
+.leaflet-safari .leaflet-tile {
+	image-rendering: -webkit-optimize-contrast;
+	}
+/* hack that prevents hw layers "stretching" when loading new tiles */
+.leaflet-safari .leaflet-tile-container {
+	width: 1600px;
+	height: 1600px;
+	-webkit-transform-origin: 0 0;
+	}
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+	display: block;
+	}
+/* .leaflet-container svg: reset svg max-width decleration shipped in Joomla! (joomla.org) 3.x */
+/* .leaflet-container img: map is broken in FF if you have max-width: 100% on tiles */
+.leaflet-container .leaflet-overlay-pane svg {
+	max-width: none !important;
+	max-height: none !important;
+	}
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer,
+.leaflet-container .leaflet-tile {
+	max-width: none !important;
+	max-height: none !important;
+	width: auto;
+	padding: 0;
+	}
 
+.leaflet-container img.leaflet-tile {
+	/* See: https://bugs.chromium.org/p/chromium/issues/detail?id=600120 */
+	mix-blend-mode: plus-lighter;
+}
 
-    /* 分類標籤列 */
-    #categoryBar {
-      display: flex;
-      background: #0d0d0d;
-      padding: 8px 12px 0;
-      gap: 6px;
-      overflow-x: auto;
-      border-bottom: none;
-    }
-    #categoryBar::-webkit-scrollbar { display: none; }
-    .cat-btn {
-      flex-shrink: 0;
-      padding: 5px 14px;
-      border-radius: 16px;
-      border: 1px solid #444;
-      background: transparent;
-      color: #aaa;
-      font-size: 12px;
-      font-family: inherit;
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .cat-btn.active {
-      background: var(--theme);
-      border-color: var(--theme);
-      color: white;
-      font-weight: 600;
-    }
-    .work-btn.hidden { display: none; }
+.leaflet-container.leaflet-touch-zoom {
+	-ms-touch-action: pan-x pan-y;
+	touch-action: pan-x pan-y;
+	}
+.leaflet-container.leaflet-touch-drag {
+	-ms-touch-action: pinch-zoom;
+	/* Fallback for FF which doesn't support pinch-zoom */
+	touch-action: none;
+	touch-action: pinch-zoom;
+}
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+	-ms-touch-action: none;
+	touch-action: none;
+}
+.leaflet-container {
+	-webkit-tap-highlight-color: transparent;
+}
+.leaflet-container a {
+	-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
+}
+.leaflet-tile {
+	filter: inherit;
+	visibility: hidden;
+	}
+.leaflet-tile-loaded {
+	visibility: inherit;
+	}
+.leaflet-zoom-box {
+	width: 0;
+	height: 0;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	z-index: 800;
+	}
+/* workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=888319 */
+.leaflet-overlay-pane svg {
+	-moz-user-select: none;
+	}
 
-    /* 搜尋框 */
-    #searchWrap {
-      padding: 10px 16px;
-      background: #1a1a1a;
-      border-bottom: 1px solid #333;
-      position: relative;
-    }
-    #searchInput {
-      width: 100%;
-      padding: 8px 12px 8px 32px;
-      border: 1px solid #444;
-      border-radius: 18px;
-      background: #2a2a2a;
-      color: white;
-      font-size: 13px;
-      font-family: inherit;
-      outline: none;
-    }
-    #searchInput::placeholder { color: #888; }
-    #searchInput:focus { border-color: var(--theme); background: #333; }
-    #searchIcon {
-      position: absolute;
-      left: 26px; top: 50%; transform: translateY(-50%);
-      color: #888; pointer-events: none;
-    }
-    #searchClear {
-      position: absolute;
-      right: 24px; top: 50%; transform: translateY(-50%);
-      background: #555; color: white; border: none;
-      width: 18px; height: 18px; border-radius: 50%;
-      cursor: pointer; font-size: 11px; line-height: 1;
-      display: none;
-    }
-    #searchClear.show { display: block; }
+.leaflet-pane         { z-index: 400; }
 
-    /* 搜尋結果區 */
-    .search-section-title {
-      padding: 6px 20px;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--muted);
-      background: #f8f8f8;
-      letter-spacing: 1px;
-    }
-    .search-empty {
-      padding: 30px 20px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-    }
+.leaflet-tile-pane    { z-index: 200; }
+.leaflet-overlay-pane { z-index: 400; }
+.leaflet-shadow-pane  { z-index: 500; }
+.leaflet-marker-pane  { z-index: 600; }
+.leaflet-tooltip-pane   { z-index: 650; }
+.leaflet-popup-pane   { z-index: 700; }
 
-    /* 作品選擇器 */
-    #workBar {
-      display: flex;
-      overflow-x: auto;
-      background: #111;
-      border-bottom: 1px solid #333;
-      gap: 0;
-    }
-    .work-btn {
-      flex-shrink: 0;
-      padding: 10px 14px;
-      border: none;
-      background: transparent;
-      color: #aaa;
-      font-size: 12px;
-      font-family: inherit;
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-    .work-btn.active { color: white; border-bottom-color: var(--theme); }
-    .work-btn:hover  { color: #ddd; }
+.leaflet-map-pane canvas { z-index: 100; }
+.leaflet-map-pane svg    { z-index: 200; }
 
-    /* 目前作品標題 */
-    #workHeader {
-      padding: 14px 20px;
-      color: white;
-      position: sticky; top: 0; z-index: 10;
-    }
-    #workHeader h1 { font-size: 19px; margin-bottom: 3px; }
-    #workHeader .subtitle { font-size: 12px; opacity: 0.85; }
-
-    /* 模式切換 */
-    #modeBar { display: flex; border-bottom: 2px solid #eee; background: #fafafa; }
-    .mode-btn {
-      flex: 1; padding: 11px 8px; border: none; background: transparent;
-      font-size: 13px; font-family: inherit; cursor: pointer; color: var(--muted);
-      border-bottom: 3px solid transparent; transition: all 0.2s;
-    }
-    .mode-btn.active { color: var(--theme); border-bottom-color: var(--theme); font-weight: 600; background: white; }
-
-    /* 篩選 */
-    #filter { padding: 10px 16px; border-bottom: 1px solid #eee; background: #fafafa; }
-    #filter select {
-      width: 100%; padding: 7px 10px; border: 1px solid #ddd;
-      border-radius: 6px; font-size: 13px; background: white;
-    }
-
-    /* 路線說明 */
-    #routeInfo {
-      margin: 12px 16px; padding: 12px 14px;
-      background: #fdf0e6; border-radius: 8px; border-left: 4px solid var(--theme);
-    }
-    #routeInfo .route-title { font-weight: 700; font-size: 14px; color: var(--theme); margin-bottom: 6px; }
-    #routeInfo .route-meta  { font-size: 12px; color: #6a3018; line-height: 1.8; }
-
-    /* 場景卡片 */
-    .scene-card {
-      padding: 13px 20px; border-bottom: 1px solid #f0f0f0;
-      cursor: pointer; transition: background 0.15s;
-    }
-    .scene-card:hover { background: #fff8f3; }
-    .scene-card.active { background: #fdf0e6; border-left: 3px solid var(--theme); padding-left: 17px; }
-    .scene-card .real-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
-    .scene-card .fictional-name { font-size: 12px; color: var(--theme); margin-bottom: 5px; }
-    .scene-card .stop-time { font-size: 12px; font-weight: 600; color: #2A3A5A; margin-bottom: 5px; }
-    .scene-card .meta { font-size: 12px; color: var(--muted); display: flex; gap: 6px; flex-wrap: wrap; }
-
-    .stop-num {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 22px; height: 22px; background: #2A3A5A; color: white;
-      border-radius: 50%; font-size: 11px; font-weight: 700; flex-shrink: 0;
-    }
-    .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; background: #f0f0f0; }
-    .badge.cgi-full    { background: #ffe6e6; color: #c0392b; }
-    .badge.cgi-partial { background: #fff4e0; color: #d68a00; }
-    .badge.cgi-none    { background: #e6f4ea; color: #2e7d32; }
-    .badge.confidence-estimated { background: #fff3cd; color: #856404; }
-
-    /* 地圖 */
-    #map { flex: 1; height: 100vh; }
-
-    .custom-marker {
-      width: 32px; height: 32px; border: 3px solid white;
-      border-radius: 50% 50% 50% 0; transform: rotate(-45deg);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      display: flex; align-items: center; justify-content: center;
-      color: white; font-weight: bold; font-size: 12px;
-    }
-    .custom-marker.route-marker { background: #2A3A5A !important; }
-    .custom-marker span { transform: rotate(45deg); }
-
-    .leaflet-popup-content { margin: 12px 16px !important; min-width: 230px; }
-    .popup-title    { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
-    .popup-time     { color: #2A3A5A; font-size: 12px; font-weight: 600; margin-bottom: 5px; }
-    .popup-fictional{ color: var(--theme); font-size: 12px; margin-bottom: 6px; }
-    .popup-desc     { font-size: 13px; line-height: 1.5; color: #444; margin-bottom: 8px; }
-    .popup-tip      { font-size: 12px; background: #fdf0e6; padding: 6px 8px; border-radius: 4px; color: #6a3018; }
+.leaflet-vml-shape {
+	width: 1px;
+	height: 1px;
+	}
+.lvml {
+	behavior: url(#default#VML);
+	display: inline-block;
+	position: absolute;
+	}
 
 
-    /* 登入按鈕 */
-    #authBar {
-      padding: 8px 16px;
-      background: #111;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #333;
-    }
-    #authBar .user-info { font-size: 12px; color: #aaa; display: flex; align-items: center; gap: 8px; }
-    #authBar .user-avatar { width: 24px; height: 24px; border-radius: 50%; }
-    .auth-btn {
-      padding: 5px 12px; border-radius: 14px; border: none;
-      font-size: 12px; font-family: inherit; cursor: pointer;
-    }
-    .login-btn  { background: white; color: #1a1a1a; font-weight: 600; }
-    .logout-btn { background: #333; color: #aaa; }
+/* control positioning */
 
-    /* 打卡按鈕（在 popup 裡） */
-    .checkin-btn {
-      display: block; width: 100%; margin-top: 10px;
-      padding: 8px; border-radius: 6px; border: none;
-      background: var(--theme); color: white;
-      font-size: 13px; font-family: inherit; cursor: pointer;
-      font-weight: 600;
-    }
-    .checkin-btn:hover { opacity: 0.9; }
-    .checkin-btn:disabled { background: #ccc; cursor: default; }
+.leaflet-control {
+	position: relative;
+	z-index: 800;
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+.leaflet-top,
+.leaflet-bottom {
+	position: absolute;
+	z-index: 1000;
+	pointer-events: none;
+	}
+.leaflet-top {
+	top: 0;
+	}
+.leaflet-right {
+	right: 0;
+	}
+.leaflet-bottom {
+	bottom: 0;
+	}
+.leaflet-left {
+	left: 0;
+	}
+.leaflet-control {
+	float: left;
+	clear: both;
+	}
+.leaflet-right .leaflet-control {
+	float: right;
+	}
+.leaflet-top .leaflet-control {
+	margin-top: 10px;
+	}
+.leaflet-bottom .leaflet-control {
+	margin-bottom: 10px;
+	}
+.leaflet-left .leaflet-control {
+	margin-left: 10px;
+	}
+.leaflet-right .leaflet-control {
+	margin-right: 10px;
+	}
 
-    /* 打卡表單 */
-    #checkinModal {
-      display: none;
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.6); z-index: 9999;
-      align-items: center; justify-content: center;
-    }
-    #checkinModal.show { display: flex; }
-    #checkinBox {
-      background: white; border-radius: 12px;
-      padding: 24px; width: 340px; max-width: 90vw;
-    }
-    #checkinBox h3 { font-size: 16px; color: var(--theme); margin-bottom: 16px; }
-    #checkinBox textarea {
-      width: 100%; padding: 8px; border: 1px solid #ddd;
-      border-radius: 6px; font-size: 13px; font-family: inherit;
-      resize: none; height: 80px; margin-bottom: 10px;
-    }
-    #checkinBox input[type=file] { font-size: 12px; margin-bottom: 10px; }
-    #checkinBox .btn-row { display: flex; gap: 8px; }
-    #checkinBox .submit-btn {
-      flex: 1; padding: 10px; border: none; border-radius: 6px;
-      background: var(--theme); color: white; font-size: 14px;
-      font-family: inherit; cursor: pointer; font-weight: 600;
-    }
-    #checkinBox .cancel-btn {
-      padding: 10px 16px; border: 1px solid #ddd; border-radius: 6px;
-      background: white; font-size: 14px; font-family: inherit; cursor: pointer;
-    }
 
-    /* 打卡列表 */
-    .checkin-list { margin-top: 10px; }
-    .checkin-item {
-      padding: 8px 10px; background: #f8f8f8; border-radius: 6px;
-      margin-bottom: 6px; font-size: 12px;
-    }
-    .checkin-item .ci-user { font-weight: 600; color: var(--theme); }
-    .checkin-item .ci-note { color: #555; margin-top: 2px; }
-    .checkin-item img { width: 100%; border-radius: 4px; margin-top: 6px; }
+/* zoom and fade animations */
 
-    @media (max-width: 768px) {
-      body { flex-direction: column; }
-      #sidebar { width: 100%; height: 50%; }
-      #map { height: 50%; }
-    }
-  </style>
+.leaflet-fade-anim .leaflet-popup {
+	opacity: 0;
+	-webkit-transition: opacity 0.2s linear;
+	   -moz-transition: opacity 0.2s linear;
+	        transition: opacity 0.2s linear;
+	}
+.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+	opacity: 1;
+	}
+.leaflet-zoom-animated {
+	-webkit-transform-origin: 0 0;
+	    -ms-transform-origin: 0 0;
+	        transform-origin: 0 0;
+	}
+svg.leaflet-zoom-animated {
+	will-change: transform;
+}
+
+.leaflet-zoom-anim .leaflet-zoom-animated {
+	-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);
+	   -moz-transition:    -moz-transform 0.25s cubic-bezier(0,0,0.25,1);
+	        transition:         transform 0.25s cubic-bezier(0,0,0.25,1);
+	}
+.leaflet-zoom-anim .leaflet-tile,
+.leaflet-pan-anim .leaflet-tile {
+	-webkit-transition: none;
+	   -moz-transition: none;
+	        transition: none;
+	}
+
+.leaflet-zoom-anim .leaflet-zoom-hide {
+	visibility: hidden;
+	}
+
+
+/* cursors */
+
+.leaflet-interactive {
+	cursor: pointer;
+	}
+.leaflet-grab {
+	cursor: -webkit-grab;
+	cursor:    -moz-grab;
+	cursor:         grab;
+	}
+.leaflet-crosshair,
+.leaflet-crosshair .leaflet-interactive {
+	cursor: crosshair;
+	}
+.leaflet-popup-pane,
+.leaflet-control {
+	cursor: auto;
+	}
+.leaflet-dragging .leaflet-grab,
+.leaflet-dragging .leaflet-grab .leaflet-interactive,
+.leaflet-dragging .leaflet-marker-draggable {
+	cursor: move;
+	cursor: -webkit-grabbing;
+	cursor:    -moz-grabbing;
+	cursor:         grabbing;
+	}
+
+/* marker & overlays interactivity */
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-image-layer,
+.leaflet-pane > svg path,
+.leaflet-tile-container {
+	pointer-events: none;
+	}
+
+.leaflet-marker-icon.leaflet-interactive,
+.leaflet-image-layer.leaflet-interactive,
+.leaflet-pane > svg path.leaflet-interactive,
+svg.leaflet-image-layer.leaflet-interactive path {
+	pointer-events: visiblePainted; /* IE 9-10 doesn't have auto */
+	pointer-events: auto;
+	}
+
+/* visual tweaks */
+
+.leaflet-container {
+	background: #ddd;
+	outline-offset: 1px;
+	}
+.leaflet-container a {
+	color: #0078A8;
+	}
+.leaflet-zoom-box {
+	border: 2px dotted #38f;
+	background: rgba(255,255,255,0.5);
+	}
+
+
+/* general typography */
+.leaflet-container {
+	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-size: 0.75rem;
+	line-height: 1.5;
+	}
+
+
+/* general toolbar styles */
+
+.leaflet-bar {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+	border-radius: 4px;
+	}
+.leaflet-bar a {
+	background-color: #fff;
+	border-bottom: 1px solid #ccc;
+	width: 26px;
+	height: 26px;
+	line-height: 26px;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	}
+.leaflet-bar a,
+.leaflet-control-layers-toggle {
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	display: block;
+	}
+.leaflet-bar a:hover,
+.leaflet-bar a:focus {
+	background-color: #f4f4f4;
+	}
+.leaflet-bar a:first-child {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	}
+.leaflet-bar a:last-child {
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-bottom: none;
+	}
+.leaflet-bar a.leaflet-disabled {
+	cursor: default;
+	background-color: #f4f4f4;
+	color: #bbb;
+	}
+
+.leaflet-touch .leaflet-bar a {
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	}
+.leaflet-touch .leaflet-bar a:first-child {
+	border-top-left-radius: 2px;
+	border-top-right-radius: 2px;
+	}
+.leaflet-touch .leaflet-bar a:last-child {
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	}
+
+/* zoom control */
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+	font: bold 18px 'Lucida Console', Monaco, monospace;
+	text-indent: 1px;
+	}
+
+.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {
+	font-size: 22px;
+	}
+
+
+/* layers control */
+
+.leaflet-control-layers {
+	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+	background: #fff;
+	border-radius: 5px;
+	}
+.leaflet-control-layers-toggle {
+	background-image: url("686595ff-43af-48cf-98b5-f35ca1fa54e1");
+	width: 36px;
+	height: 36px;
+	}
+.leaflet-retina .leaflet-control-layers-toggle {
+	background-image: url("ca463ef3-eef5-415f-a300-1febe5813384");
+	background-size: 26px 26px;
+	}
+.leaflet-touch .leaflet-control-layers-toggle {
+	width: 44px;
+	height: 44px;
+	}
+.leaflet-control-layers .leaflet-control-layers-list,
+.leaflet-control-layers-expanded .leaflet-control-layers-toggle {
+	display: none;
+	}
+.leaflet-control-layers-expanded .leaflet-control-layers-list {
+	display: block;
+	position: relative;
+	}
+.leaflet-control-layers-expanded {
+	padding: 6px 10px 6px 6px;
+	color: #333;
+	background: #fff;
+	}
+.leaflet-control-layers-scrollbar {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding-right: 5px;
+	}
+.leaflet-control-layers-selector {
+	margin-top: 2px;
+	position: relative;
+	top: 1px;
+	}
+.leaflet-control-layers label {
+	display: block;
+	font-size: 13px;
+	font-size: 1.08333em;
+	}
+.leaflet-control-layers-separator {
+	height: 0;
+	border-top: 1px solid #ddd;
+	margin: 5px -10px 5px -6px;
+	}
+
+/* Default icon URLs */
+.leaflet-default-icon-path { /* used only in path-guessing heuristic, see L.Icon.Default */
+	background-image: url("5526b7e1-4004-4031-aa2b-b744a99f2100");
+	}
+
+
+/* attribution and scale controls */
+
+.leaflet-container .leaflet-control-attribution {
+	background: #fff;
+	background: rgba(255, 255, 255, 0.8);
+	margin: 0;
+	}
+.leaflet-control-attribution,
+.leaflet-control-scale-line {
+	padding: 0 5px;
+	color: #333;
+	line-height: 1.4;
+	}
+.leaflet-control-attribution a {
+	text-decoration: none;
+	}
+.leaflet-control-attribution a:hover,
+.leaflet-control-attribution a:focus {
+	text-decoration: underline;
+	}
+.leaflet-attribution-flag {
+	display: inline !important;
+	vertical-align: baseline !important;
+	width: 1em;
+	height: 0.6669em;
+	}
+.leaflet-left .leaflet-control-scale {
+	margin-left: 5px;
+	}
+.leaflet-bottom .leaflet-control-scale {
+	margin-bottom: 5px;
+	}
+.leaflet-control-scale-line {
+	border: 2px solid #777;
+	border-top: none;
+	line-height: 1.1;
+	padding: 2px 5px 1px;
+	white-space: nowrap;
+	-moz-box-sizing: border-box;
+	     box-sizing: border-box;
+	background: rgba(255, 255, 255, 0.8);
+	text-shadow: 1px 1px #fff;
+	}
+.leaflet-control-scale-line:not(:first-child) {
+	border-top: 2px solid #777;
+	border-bottom: none;
+	margin-top: -2px;
+	}
+.leaflet-control-scale-line:not(:first-child):not(:last-child) {
+	border-bottom: 2px solid #777;
+	}
+
+.leaflet-touch .leaflet-control-attribution,
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	box-shadow: none;
+	}
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+	border: 2px solid rgba(0,0,0,0.2);
+	background-clip: padding-box;
+	}
+
+
+/* popup */
+
+.leaflet-popup {
+	position: absolute;
+	text-align: center;
+	margin-bottom: 20px;
+	}
+.leaflet-popup-content-wrapper {
+	padding: 1px;
+	text-align: left;
+	border-radius: 12px;
+	}
+.leaflet-popup-content {
+	margin: 13px 24px 13px 20px;
+	line-height: 1.3;
+	font-size: 13px;
+	font-size: 1.08333em;
+	min-height: 1px;
+	}
+.leaflet-popup-content p {
+	margin: 17px 0;
+	margin: 1.3em 0;
+	}
+.leaflet-popup-tip-container {
+	width: 40px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	margin-top: -1px;
+	margin-left: -20px;
+	overflow: hidden;
+	pointer-events: none;
+	}
+.leaflet-popup-tip {
+	width: 17px;
+	height: 17px;
+	padding: 1px;
+
+	margin: -10px auto 0;
+	pointer-events: auto;
+
+	-webkit-transform: rotate(45deg);
+	   -moz-transform: rotate(45deg);
+	    -ms-transform: rotate(45deg);
+	        transform: rotate(45deg);
+	}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+	background: white;
+	color: #333;
+	box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+	}
+.leaflet-container a.leaflet-popup-close-button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: none;
+	text-align: center;
+	width: 24px;
+	height: 24px;
+	font: 16px/24px Tahoma, Verdana, sans-serif;
+	color: #757575;
+	text-decoration: none;
+	background: transparent;
+	}
+.leaflet-container a.leaflet-popup-close-button:hover,
+.leaflet-container a.leaflet-popup-close-button:focus {
+	color: #585858;
+	}
+.leaflet-popup-scrolled {
+	overflow: auto;
+	}
+
+.leaflet-oldie .leaflet-popup-content-wrapper {
+	-ms-zoom: 1;
+	}
+.leaflet-oldie .leaflet-popup-tip {
+	width: 24px;
+	margin: 0 auto;
+
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
+	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
+	}
+
+.leaflet-oldie .leaflet-control-zoom,
+.leaflet-oldie .leaflet-control-layers,
+.leaflet-oldie .leaflet-popup-content-wrapper,
+.leaflet-oldie .leaflet-popup-tip {
+	border: 1px solid #999;
+	}
+
+
+/* div icon */
+
+.leaflet-div-icon {
+	background: #fff;
+	border: 1px solid #666;
+	}
+
+
+/* Tooltip */
+/* Base styles for the element that has a tooltip */
+.leaflet-tooltip {
+	position: absolute;
+	padding: 6px;
+	background-color: #fff;
+	border: 1px solid #fff;
+	border-radius: 3px;
+	color: #222;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	pointer-events: none;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+	}
+.leaflet-tooltip.leaflet-interactive {
+	cursor: pointer;
+	pointer-events: auto;
+	}
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	position: absolute;
+	pointer-events: none;
+	border: 6px solid transparent;
+	background: transparent;
+	content: "";
+	}
+
+/* Directions */
+
+.leaflet-tooltip-bottom {
+	margin-top: 6px;
+}
+.leaflet-tooltip-top {
+	margin-top: -6px;
+}
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-top:before {
+	left: 50%;
+	margin-left: -6px;
+	}
+.leaflet-tooltip-top:before {
+	bottom: 0;
+	margin-bottom: -12px;
+	border-top-color: #fff;
+	}
+.leaflet-tooltip-bottom:before {
+	top: 0;
+	margin-top: -12px;
+	margin-left: -6px;
+	border-bottom-color: #fff;
+	}
+.leaflet-tooltip-left {
+	margin-left: -6px;
+}
+.leaflet-tooltip-right {
+	margin-left: 6px;
+}
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+	top: 50%;
+	margin-top: -6px;
+	}
+.leaflet-tooltip-left:before {
+	right: 0;
+	margin-right: -12px;
+	border-left-color: #fff;
+	}
+.leaflet-tooltip-right:before {
+	left: 0;
+	margin-left: -12px;
+	border-right-color: #fff;
+	}
+
+/* Printing */
+
+@media print {
+	/* Prevent printers from removing background-images of controls. */
+	.leaflet-control {
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+		}
+	}
+</style>
+<script src="file:///C:/Users/Wesley/Downloads/c07f43cc-31c8-4c56-8ade-b168cc5c225b"></script>
+
+<style>
+  :root {
+    --theme: #ff5b3a;
+    --bg: #08080a;
+    --ink: #eeeae0;
+    --muted: #6e6a62;
+    --line: rgba(238,234,224,0.08);
+    --line-2: rgba(238,234,224,0.16);
+    --paper: #14141a;
+  }
+  /* hide-toggle states */
+  body.hide-left .panel { transform: translateX(calc(-100% - 32px)); }
+  body.hide-right .featured { transform: translateX(calc(100% + 32px)); }
+  body.hide-left .toggle-panel { opacity: 1; pointer-events: auto; }
+  body.hide-right .toggle-featured { opacity: 1; pointer-events: auto; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: "Inter", "PingFang TC", "Noto Sans TC", -apple-system, sans-serif;
+    background: var(--bg); color: var(--ink);
+    height: 100vh; overflow: hidden;
+    position: relative;
+  }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 2px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  /* Map fills entire viewport */
+  #map {
+    position: absolute; inset: 0;
+    background: #14141a;
+    z-index: 1;
+  }
+  /* keep map in original bright style */
+  .leaflet-control-zoom {
+    margin-top: 80px !important;
+    border: none !important;
+  }
+  .leaflet-control-zoom a {
+    background: rgba(20,20,26,0.9) !important;
+    color: var(--ink) !important;
+    border: 1px solid var(--line-2) !important;
+    backdrop-filter: blur(12px);
+  }
+  .leaflet-control-attribution {
+    background: rgba(0,0,0,0.6) !important;
+    color: var(--muted) !important;
+  }
+  .leaflet-control-attribution a { color: var(--theme) !important; }
+
+  .marker {
+    width: 36px; height: 36px;
+    background: var(--theme);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: white;
+    font-family: "Fraunces", serif;
+    font-size: 14px; font-weight: 600;
+    box-shadow: 0 0 0 3px white, 0 0 0 4px var(--theme), 0 8px 20px rgba(0,0,0,0.35);
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease;
+    transform-origin: center bottom;
+    will-change: transform;
+  }
+  .marker.dim {
+    background: white;
+    color: var(--theme);
+    box-shadow: 0 0 0 2px var(--theme), 0 6px 14px rgba(0,0,0,0.25);
+  }
+  /* Pin hover — scale, lift, glow */
+  .marker:hover {
+    transform: scale(1.18) translateY(-4px);
+    box-shadow:
+      0 0 0 3px white,
+      0 0 0 4px var(--theme),
+      0 0 28px 4px rgba(255,91,58,0.55),
+      0 14px 28px rgba(0,0,0,0.45);
+    z-index: 1000;
+  }
+  .marker.dim:hover {
+    box-shadow:
+      0 0 0 2px var(--theme),
+      0 0 22px 4px rgba(255,91,58,0.45),
+      0 12px 22px rgba(0,0,0,0.35);
+  }
+  /* Active pin — gentle pulse halo */
+  .marker.is-active {
+    animation: pinPop 0.45s cubic-bezier(.34,1.56,.64,1);
+  }
+  .marker.is-active::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid var(--theme);
+    animation: pinPulse 1.8s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pinPop {
+    0% { transform: scale(1); }
+    55% { transform: scale(1.35) translateY(-6px); }
+    100% { transform: scale(1); }
+  }
+  @keyframes pinPulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    100% { transform: scale(1.9); opacity: 0; }
+  }
+
+  /* ── Top nav strip ── */
+  .nav {
+    position: absolute;
+    top: 16px; left: 16px; right: 16px;
+    z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    pointer-events: none;
+    gap: 12px;
+  }
+  .nav > * { pointer-events: auto; }
+
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(20,20,26,0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--line-2);
+    border-radius: 100px;
+    padding: 6px 16px 6px 6px;
+  }
+  .brand-mark {
+    width: 30px; height: 30px;
+    background: var(--theme);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: white;
+    font-family: "Fraunces", serif;
+    font-size: 13px; font-weight: 600;
+  }
+  .brand-text {
+    line-height: 1.1;
+  }
+  .brand-name {
+    font-family: "Fraunces", "Noto Serif TC", serif;
+    font-size: 15px; letter-spacing: -0.2px;
+    color: var(--ink);
+  }
+
+  .nav-center {
+    display: flex; gap: 4px;
+    background: rgba(20,20,26,0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--line-2);
+    border-radius: 100px;
+    padding: 4px;
+  }
+  .nav-cat {
+    padding: 7px 16px;
+    background: transparent; border: none;
+    color: var(--muted); font-size: 12px;
+    cursor: pointer; font-family: inherit;
+    border-radius: 100px;
+    letter-spacing: 0.5px;
+    transition: all 0.15s;
+  }
+  .nav-cat.active {
+    background: var(--ink); color: var(--bg); font-weight: 600;
+  }
+
+  .nav-right {
+    display: flex; gap: 10px;
+  }
+  .nav-search {
+    width: 220px;
+    padding: 9px 14px 9px 36px;
+    background: rgba(20,20,26,0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--line-2);
+    border-radius: 100px;
+    color: var(--ink);
+    font-size: 12px; font-family: inherit;
+    outline: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236e6a62' stroke-width='2' stroke-linecap='round'><circle cx='11' cy='11' r='8'/><path d='m21 21-4.3-4.3'/></svg>");
+    background-repeat: no-repeat;
+    background-position: 14px center;
+  }
+  .nav-search::placeholder { color: var(--muted); }
+  .auth-pill {
+    padding: 9px 16px;
+    background: var(--ink); color: var(--bg);
+    border: none; border-radius: 100px;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+  }
+
+  /* ── Works rail ── */
+  .rail {
+    position: absolute;
+    top: 72px; left: 16px;
+    max-width: calc(100% - 32px);
+    z-index: 9;
+    display: flex; gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    pointer-events: none;
+  }
+  .rail::-webkit-scrollbar { display: none; }
+  .rail > * { pointer-events: auto; }
+  .work-pill {
+    flex-shrink: 0;
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 14px 8px 8px;
+    background: rgba(20,20,26,0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--line-2);
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .work-pill:hover { border-color: rgba(238,234,224,0.3); }
+  .work-pill.active {
+    border-color: var(--theme);
+    background: rgba(255,91,58,0.12);
+  }
+  .work-glyph {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-family: "Noto Serif TC", serif;
+    font-size: 14px;
+    color: white;
+  }
+  .work-pill-name { font-size: 12px; color: var(--ink); }
+  .work-pill-count { font-size: 10px; color: var(--muted); margin-left: 4px; }
+
+  /* ── Main editorial panel — left ── */
+  .panel {
+    position: absolute;
+    left: 16px; bottom: 16px; top: 132px;
+    width: 380px;
+    background: rgba(20,20,26,0.94);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--line-2);
+    border-radius: 16px;
+    z-index: 8;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+  }
+
+  .panel-head {
+    padding: 20px 22px 18px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255,91,58,0.06), transparent);
+  }
+  .editorial-tag {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 10px;
+    color: var(--theme);
+    letter-spacing: 2.5px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .editorial-tag::before {
+    content: ""; width: 18px; height: 1px; background: var(--theme);
+  }
+  .editorial-title {
+    font-family: "Noto Serif TC", "Fraunces", serif;
+    font-size: 36px; font-weight: 600;
+    line-height: 0.95; letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .editorial-en {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-size: 13px; color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .editorial-stats {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--line);
+    margin: 0 -22px -18px;
+    padding: 12px 22px 0;
+  }
+  .stat {
+    border-right: 1px solid var(--line);
+    padding-right: 12px;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: "Fraunces", serif;
+    font-size: 20px;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat-lbl {
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 1.5px; margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  /* Mode toggle */
+  .modes {
+    display: flex;
+    padding: 10px 22px 0;
+    gap: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .mode {
+    padding: 10px 0;
+    background: transparent; border: none;
+    color: var(--muted); font-size: 12px;
+    cursor: pointer; font-family: inherit;
+    border-bottom: 1px solid transparent;
+    margin-bottom: -1px;
+    letter-spacing: 0.5px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .mode.active { color: var(--ink); border-bottom-color: var(--theme); }
+  .mode-num {
+    font-family: "Fraunces", serif;
+    color: var(--theme);
+  }
+
+  /* Scenes list — editorial spread */
+  .scenes {
+    flex: 1; overflow-y: auto;
+    padding: 4px 0 8px;
+  }
+  .scene {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 12px;
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    position: relative;
+    transition: background 0.15s;
+  }
+  .scene:hover { background: rgba(255,91,58,0.04); }
+  .scene.active { background: rgba(255,91,58,0.08); }
+  .scene.active::before {
+    content: "";
+    position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 3px; height: 32px; background: var(--theme);
+  }
+
+  .scene-num {
+    font-family: "Fraunces", serif;
+    font-size: 24px; font-weight: 500;
+    color: var(--theme);
+    line-height: 1;
+    text-align: center;
+    padding-top: 4px;
+    letter-spacing: -0.5px;
+  }
+  .scene-num small {
+    display: block;
+    font-size: 9px;
+    color: var(--muted);
+    font-family: "Inter", sans-serif;
+    letter-spacing: 2px;
+    margin-top: 2px;
+    font-style: normal;
+  }
+  .scene-real {
+    font-size: 15px; font-weight: 600;
+    margin-bottom: 3px;
+    letter-spacing: -0.2px;
+  }
+  .scene-fictional {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-family: "Fraunces", serif;
+    font-style: italic;
+  }
+  .scene-fictional::before { content: "↳ "; color: var(--theme); font-style: normal; }
+  .scene-meta {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    align-items: center;
+  }
+  .badge {
+    font-size: 10px; padding: 3px 9px;
+    border-radius: 100px;
+    background: transparent;
+    border: 1px solid var(--line-2);
+    color: var(--muted);
+    letter-spacing: 0.3px;
+  }
+  .badge.cgi-partial { color: #e0c089; border-color: rgba(224,192,137,0.3); }
+  .badge.cgi-none { color: #8aac8a; border-color: rgba(138,172,138,0.3); }
+  .badge.cgi-full { color: var(--theme); border-color: rgba(255,91,58,0.3); }
+  .scene-time {
+    margin-left: auto;
+    font-family: "Fraunces", serif;
+    font-size: 12px; color: var(--ink);
+    font-feature-settings: "tnum";
+  }
+
+  /* Featured card swap animation */
+  .featured-cover, .featured-body { transition: opacity 0.22s ease; }
+  .featured.is-swapping .featured-cover,
+  .featured.is-swapping .featured-body { opacity: 0; }
+  .featured .swap-target {
+    display: inline-block;
+    animation: swapIn 0.42s cubic-bezier(.2,.7,.2,1) both;
+  }
+  @keyframes swapIn {
+    from { opacity: 0; transform: translateY(8px); filter: blur(2px); }
+    to   { opacity: 1; transform: translateY(0);   filter: blur(0); }
+  }
+  .featured-num.swap-target { animation-delay: 0.02s; }
+  .featured-name.swap-target { animation-delay: 0.06s; }
+  .featured-fictional.swap-target { animation-delay: 0.10s; }
+  .compare-cell.swap-target:nth-child(1) { animation-delay: 0.14s; }
+  .compare-cell.swap-target:nth-child(2) { animation-delay: 0.18s; }
+
+  /* Scene row — subtle press feedback */
+  .scene { transition: background 0.15s, transform 0.2s ease; }
+  .scene:active { transform: scale(0.99); }
+
+  /* ── Right side: featured scene card (focused) ── */
+  .featured {
+    position: absolute;
+    right: 16px; bottom: 16px;
+    width: 280px;
+    background: rgba(20,20,26,0.94);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--line-2);
+    border-radius: 14px;
+    z-index: 8;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+  }
+  .featured-cover {
+    height: 130px;
+    background:
+      linear-gradient(180deg, transparent 50%, rgba(20,20,26,0.9) 100%),
+      linear-gradient(135deg, #4a1810, #1a0808);
+    position: relative;
+    overflow: hidden;
+  }
+  .featured-cover::before {
+    content: ""; position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent 0 6px, rgba(255,255,255,0.02) 6px 12px);
+  }
+  .featured-num {
+    position: absolute;
+    top: 16px; left: 16px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    padding: 5px 11px;
+    border-radius: 6px;
+    font-family: "Fraunces", serif;
+    font-size: 13px;
+    color: var(--ink);
+    z-index: 1;
+  }
+  .featured-label {
+    position: absolute;
+    bottom: 12px; left: 16px;
+    font-size: 10px;
+    color: rgba(238,234,224,0.5);
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    z-index: 1;
+  }
+  .featured-body {
+    padding: 18px 20px 20px;
+  }
+  .featured-tag {
+    font-size: 9px; letter-spacing: 2.5px;
+    color: var(--theme); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .featured-name {
+    font-family: "Noto Serif TC", serif;
+    font-size: 18px; font-weight: 600;
+    line-height: 1.15; margin-bottom: 4px;
+    letter-spacing: -0.3px;
+  }
+  .featured-fictional {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    font-family: "Fraunces", serif;
+    font-style: italic;
+  }
+  .featured-actions {
+    display: flex; gap: 8px;
+  }
+  .featured-btn {
+    flex: 1;
+    padding: 10px;
+    background: var(--theme);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px; font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+  }
+  .featured-btn.ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line-2);
+  }
+
+  /* Comparison strip — film stills mock */
+  .compare {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .compare-label {
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 1.5px; margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .compare-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .compare-cell {
+    aspect-ratio: 16/10;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #2a1a1a, #4a2520);
+    position: relative;
+    overflow: hidden;
+  }
+  .compare-cell::before {
+    content: ""; position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent 0 4px, rgba(255,255,255,0.025) 4px 8px);
+  }
+  .compare-cell.real { background: linear-gradient(135deg, #1a2a3a, #2a3a4a); }
+  .compare-cell-tag {
+    position: absolute;
+    bottom: 6px; left: 8px;
+    font-size: 9px;
+    color: rgba(255,255,255,0.6);
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    letter-spacing: 0.5px;
+  }
+
+  /* Toggle buttons */
+  .toggle-panel, .toggle-featured {
+    position: absolute;
+    z-index: 11;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(20,20,26,0.94);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--line-2);
+    color: var(--ink);
+    cursor: pointer;
+    display: grid; place-items: center;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .toggle-panel:hover, .toggle-featured:hover { border-color: var(--theme); color: var(--theme); }
+  .toggle-panel { left: 16px; bottom: 16px; opacity: 0; pointer-events: none; }
+  .toggle-featured { right: 16px; bottom: 16px; opacity: 0; pointer-events: none; }
+  .toggle-panel .ic, .toggle-featured .ic {
+    display: inline-block;
+    transition: transform 0.3s;
+    font-size: 14px;
+  }
+  /* Inline collapse buttons on the panel/featured headers */
+  .panel-collapse, .featured-collapse {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--line-2);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    display: grid; place-items: center;
+    z-index: 5;
+    transition: all 0.15s;
+  }
+  .panel-collapse:hover, .featured-collapse:hover { color: var(--theme); border-color: var(--theme); }
+
+  @media (max-width: 1100px) {
+    .featured { display: none; }
+    .toggle-featured { display: none; }
+  }
+</style>
+<script src="./index_files/supabase.js.下載"></script>
 </head>
-<body>
-<aside id="sidebar">
+<body style="background-color: rgb(8, 9, 10)">
 
-  <!-- 登入列 -->
-  <div id="authBar">
-    <div class="user-info" id="userInfo">
-      <span id="userEmail">尚未登入</span>
+<div id="map"></div>
+
+<!-- Top nav -->
+<div class="nav">
+  <div class="brand">
+    <div class="brand-mark">SP</div>
+    <div class="brand-name">ScenePilgrim</div>
+  </div>
+  <div class="nav-center">
+    <button class="nav-cat active">全部</button>
+    <button class="nav-cat">台劇</button>
+    <button class="nav-cat">台灣電影</button>
+    <button class="nav-cat">日本電影</button>
+  </div>
+  <div class="nav-right">
+    <input class="nav-search" type="text" placeholder="搜尋場景、地點…">
+    <button class="auth-pill">登入</button>
+  </div>
+</div>
+
+<!-- Works rail -->
+<div class="rail">
+  <div class="work-pill active" data-slug="agent-from-above-2026">
+    <div class="work-glyph" style="background:linear-gradient(135deg,#3a1410,#7a3520)">乩</div>
+    <span class="work-pill-name">乩身</span>
+    <span class="work-pill-count">12</span>
+  </div>
+  <div class="work-pill" data-slug="light-the-night-2021">
+    <div class="work-glyph" style="background:linear-gradient(135deg,#2a1a3a,#5a3a6a)">華</div>
+    <span class="work-pill-name">華燈初上</span>
+    <span class="work-pill-count">12</span>
+  </div>
+  <div class="work-pill" data-slug="port-of-lies-2023">
+    <div class="work-glyph" style="background:linear-gradient(135deg,#1a2a3a,#3a4a6a)">八</div>
+    <span class="work-pill-name">八尺門</span>
+    <span class="work-pill-count">10</span>
+  </div>
+  <div class="work-pill" data-slug="till-we-meet-again-2021">
+    <div class="work-glyph" style="background:linear-gradient(135deg,#3a1020,#7a2040)">月</div>
+    <span class="work-pill-name">月老</span>
+    <span class="work-pill-count">15</span>
+  </div>
+  <div class="work-pill" data-slug="man-in-love-2021">
+    <div class="work-glyph" style="background:linear-gradient(135deg,#3a1a1a,#7a3030)">男</div>
+    <span class="work-pill-name">當男人戀愛時</span>
+    <span class="work-pill-count">10</span>
+  </div>
+  <div class="work-pill" data-slug="your-name-2016">
+    <div class="work-glyph" style="background:linear-gradient(135deg,#2a2040,#5040a0)">名</div>
+    <span class="work-pill-name">你的名字</span>
+    <span class="work-pill-count">15</span>
+  </div>
+</div>
+
+<!-- Editorial panel -->
+<aside class="panel">
+  <button class="panel-collapse" onclick="document.body.classList.add(&#39;hide-left&#39;)" title="收起列表">←</button>
+  <div class="panel-head">
+    <div class="editorial-tag">ISSUE №01 — 2026 — 台劇</div>
+    <div class="editorial-title">乩身</div>
+    <div class="editorial-en">Agent from Above · 基隆</div>
+    <div class="editorial-stats">
+      <div class="stat"><div class="stat-num">12</div><div class="stat-lbl">Scenes</div></div>
+      <div class="stat"><div class="stat-num">08</div><div class="stat-lbl">Verified</div></div>
+      <div class="stat"><div class="stat-num">8h</div><div class="stat-lbl">Day Trip</div></div>
     </div>
-    <button class="auth-btn login-btn" id="authBtn" onclick="handleAuth()">Google 登入</button>
   </div>
 
-  <!-- APP 標題 -->
-  <div id="appHeader">
-    <div class="app-name">ScenePilgrim</div>
-    <div class="app-sub">影視聖地巡禮 · 選擇作品開始朝聖</div>
+  <div class="modes">
+    <button class="mode active"><span class="mode-num">12</span> 全部場景</button>
+    <button class="mode"><span class="mode-num">09</span> 一日遊路線</button>
   </div>
 
-  <!-- 全域搜尋 -->
-  <div id="searchWrap">
-    <span id="searchIcon">🔍</span>
-    <input id="searchInput" type="text" placeholder="搜尋場景、地點、角色...（跨所有作品）">
-    <button id="searchClear" onclick="clearSearch()">×</button>
+  <div class="scenes">
+    <div class="scene active" data-idx="0" data-num="01" data-real="代明宮" data-fictional="東風市場宮廟" data-cover="linear-gradient(135deg,#4a1810,#1a0808)">
+      <div class="scene-num">01<small>SCENE</small></div>
+      <div>
+        <div class="scene-real">代明宮</div>
+        <div class="scene-fictional">東風市場宮廟</div>
+        <div class="scene-meta">
+          <span class="badge">宮廟</span>
+          <span class="badge cgi-partial">含特效</span>
+          <span class="scene-time">11:00</span>
+        </div>
+      </div>
+    </div>
+    <div class="scene" data-idx="1" data-num="02" data-real="罾仔頂三連棟" data-fictional="市井追逐巷" data-cover="linear-gradient(135deg,#2a1a14,#0a0a0a)">
+      <div class="scene-num">02<small>SCENE</small></div>
+      <div>
+        <div class="scene-real">罾仔頂三連棟</div>
+        <div class="scene-fictional">市井追逐巷</div>
+        <div class="scene-meta">
+          <span class="badge">街道</span>
+          <span class="badge cgi-none">純實景</span>
+          <span class="scene-time">09:30</span>
+        </div>
+      </div>
+    </div>
+    <div class="scene" data-idx="2" data-num="03" data-real="東和大樓" data-fictional="東風市場原型" data-cover="linear-gradient(135deg,#3a2014,#1a0a0a)">
+      <div class="scene-num">03<small>SCENE</small></div>
+      <div>
+        <div class="scene-real">東和大樓</div>
+        <div class="scene-fictional">東風市場原型</div>
+        <div class="scene-meta">
+          <span class="badge">老建築</span>
+          <span class="badge cgi-partial">含特效</span>
+          <span class="scene-time">10:00</span>
+        </div>
+      </div>
+    </div>
+    <div class="scene" data-idx="3" data-num="04" data-real="吉祥大樓" data-fictional="老公寓" data-cover="linear-gradient(135deg,#1f1a1a,#0a0808)">
+      <div class="scene-num">04<small>SCENE</small></div>
+      <div>
+        <div class="scene-real">吉祥大樓</div>
+        <div class="scene-fictional">老公寓</div>
+        <div class="scene-meta">
+          <span class="badge">老建築</span>
+          <span class="badge cgi-none">純實景</span>
+          <span class="scene-time">10:30</span>
+        </div>
+      </div>
+    </div>
+    <div class="scene" data-idx="4" data-num="05" data-real="基隆港西二碼頭" data-fictional="港口對峙" data-cover="linear-gradient(135deg,#142a3a,#08121f)">
+      <div class="scene-num">05<small>SCENE</small></div>
+      <div>
+        <div class="scene-real">基隆港西二碼頭</div>
+        <div class="scene-fictional">港口對峙</div>
+        <div class="scene-meta">
+          <span class="badge">港口</span>
+          <span class="badge cgi-partial">含特效</span>
+          <span class="scene-time">16:30</span>
+        </div>
+      </div>
+    </div>
+    <div class="scene" data-idx="5" data-num="06" data-real="基隆委託行商圈" data-fictional="人鬼混雜市集" data-cover="linear-gradient(135deg,#2a1830,#0f0814)">
+      <div class="scene-num">06<small>SCENE</small></div>
+      <div>
+        <div class="scene-real">基隆委託行商圈</div>
+        <div class="scene-fictional">人鬼混雜市集</div>
+        <div class="scene-meta">
+          <span class="badge">商圈</span>
+          <span class="badge cgi-none">純實景</span>
+          <span class="scene-time">13:30</span>
+        </div>
+      </div>
+    </div>
+    <div class="scene" data-idx="6" data-num="07" data-real="基隆護國城隍廟" data-fictional="邪派廟宇" data-cover="linear-gradient(135deg,#3a1820,#14080a)">
+      <div class="scene-num">07<small>SCENE</small></div>
+      <div>
+        <div class="scene-real">基隆護國城隍廟</div>
+        <div class="scene-fictional">邪派廟宇</div>
+        <div class="scene-meta">
+          <span class="badge">宮廟</span>
+          <span class="badge cgi-partial">含特效</span>
+          <span class="scene-time">14:30</span>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <!-- 分類標籤 -->
-  <div id="categoryBar">
-    <button class="cat-btn active" onclick="filterCategory(&#39;全部&#39;)">全部</button>
-    <button class="cat-btn" onclick="filterCategory(&#39;台劇&#39;)">台劇</button>
-    <button class="cat-btn" onclick="filterCategory(&#39;台灣電影&#39;)">台灣電影</button>
-    <button class="cat-btn" onclick="filterCategory(&#39;日本電影&#39;)">日本電影</button>
-  </div>
-  <!-- 作品按鈕 -->
-  <div id="workBar">
-    <button class="work-btn active" data-cat="台劇" onclick="switchWork(&#39;agent-from-above-2026&#39;)">🔴 乩身</button>
-    <button class="work-btn" data-cat="台劇" onclick="switchWork(&#39;light-the-night-2021&#39;)">🟣 華燈初上</button>
-    <button class="work-btn" data-cat="台劇" onclick="switchWork(&#39;port-of-lies-2023&#39;)">⚖️ 八尺門</button>
-    <button class="work-btn" data-cat="台灣電影" onclick="switchWork(&#39;till-we-meet-again-2021&#39;)">❤️ 月老</button>
-    <button class="work-btn" data-cat="台灣電影" onclick="switchWork(&#39;man-in-love-2021&#39;)">💕 當男人戀愛時</button>
-    <button class="work-btn" data-cat="日本電影" onclick="switchWork(&#39;your-name-2016&#39;)">🌠 你的名字</button>
-  </div>
-
-  <!-- 作品標題（動態更新） -->
-  <div id="workHeader" style="background: rgb(122, 53, 32);">
-    <h1 id="workTitle">乩身 · 朝聖地圖</h1>
-    <div class="subtitle" id="workSubtitle">Agent from Above · 12 個場景</div>
-  </div>
-
-  <!-- 模式切換 -->
-  <div id="modeBar">
-    <button class="mode-btn active" onclick="setMode(&#39;all&#39;)">📍 全部場景</button>
-    <button class="mode-btn" onclick="setMode(&#39;route&#39;)">🗺️ 一日遊路線</button>
-  </div>
-
-  <!-- 篩選 -->
-  <div id="filter" style="display: block;">
-    <select id="filterSelect"><option value="all">全部場景（12）</option><option value="宮廟">宮廟</option><option value="街道建築">街道建築</option><option value="老舊建築">老舊建築</option><option value="港口">港口</option><option value="市集商圈">市集商圈</option><option value="攝影棚">攝影棚</option><option value="河岸街道">河岸街道</option><option value="交通設施">交通設施</option><option value="夜市">夜市</option></select>
-  </div>
-
-  <!-- 路線說明 -->
-  <div id="routeInfo" style="display:none">
-    <div class="route-title" id="routeTitle">🚶 基隆乩身朝聖一日遊</div>
-    <div class="route-meta" id="routeMeta">📍 從基隆車站出發
-🚶 步行＋公車 · 全天約 8 小時
-💡 傍晚抵達港口，夜景最美</div>
-  </div>
-
-  <div id="sceneList"><div class="scene-card" data-id="b3dc1e1e-d5a7-4b40-9178-3de505d72694">
-      <div class="real-name">1. 代明宮</div>
-      
-      <div class="fictional-name">劇中：東風市場宮廟</div>
-      <div class="meta">
-        <span class="badge">宮廟</span>
-        <span class="badge cgi-partial">含特效</span>
-        <span class="badge confidence-community">社群驗證</span>
-      </div>
-    </div><div class="scene-card" data-id="0ac2ed35-32f1-4d97-9394-c678cb1b2e03">
-      <div class="real-name">2. 罾仔頂三連棟</div>
-      
-      <div class="fictional-name">劇中：市井追逐巷</div>
-      <div class="meta">
-        <span class="badge">街道建築</span>
-        <span class="badge cgi-none">純實景</span>
-        <span class="badge confidence-community">社群驗證</span>
-      </div>
-    </div><div class="scene-card" data-id="ba35587c-f6d3-432e-90f3-cf7f47c7ca3b">
-      <div class="real-name">3. 東和大樓</div>
-      
-      <div class="fictional-name">劇中：東風市場原型</div>
-      <div class="meta">
-        <span class="badge">老舊建築</span>
-        <span class="badge cgi-partial">含特效</span>
-        <span class="badge confidence-official">官方</span>
-      </div>
-    </div><div class="scene-card" data-id="df93de8c-f954-4ea9-a407-4457908088fc">
-      <div class="real-name">4. 吉祥大樓</div>
-      
-      <div class="fictional-name">劇中：老公寓</div>
-      <div class="meta">
-        <span class="badge">老舊建築</span>
-        <span class="badge cgi-none">純實景</span>
-        <span class="badge confidence-estimated">待驗證</span>
-      </div>
-    </div><div class="scene-card" data-id="bad55323-bb58-4a41-b802-2e766b0b027f">
-      <div class="real-name">5. 基隆港西二碼頭</div>
-      
-      <div class="fictional-name">劇中：港口對峙</div>
-      <div class="meta">
-        <span class="badge">港口</span>
-        <span class="badge cgi-partial">含特效</span>
-        <span class="badge confidence-official">官方</span>
-      </div>
-    </div><div class="scene-card" data-id="326058f7-c719-4d46-b21e-c2082cb9b41b">
-      <div class="real-name">6. 基隆委託行商圈</div>
-      
-      <div class="fictional-name">劇中：人鬼混雜市集</div>
-      <div class="meta">
-        <span class="badge">市集商圈</span>
-        <span class="badge cgi-none">純實景</span>
-        <span class="badge confidence-official">官方</span>
-      </div>
-    </div><div class="scene-card" data-id="079a2843-667b-4213-8011-a4775be78643">
-      <div class="real-name">7. 基隆護國城隍廟</div>
-      
-      <div class="fictional-name">劇中：邪派廟宇</div>
-      <div class="meta">
-        <span class="badge">宮廟</span>
-        <span class="badge cgi-partial">含特效</span>
-        <span class="badge confidence-official">官方</span>
-      </div>
-    </div><div class="scene-card" data-id="12e81a9d-023c-4466-8119-c4b90f3bb692">
-      <div class="real-name">8. 汐止拱北殿</div>
-      
-      <div class="fictional-name">劇中：三太子廟</div>
-      <div class="meta">
-        <span class="badge">宮廟</span>
-        <span class="badge cgi-none">純實景</span>
-        <span class="badge confidence-official">官方</span>
-      </div>
-    </div><div class="scene-card" data-id="f7409203-6431-4b8e-ba70-c16fa10ca8e5">
-      <div class="real-name">9. 中影文化城 LED 虛擬棚</div>
-      
-      <div class="fictional-name">劇中：地獄場景</div>
-      <div class="meta">
-        <span class="badge">攝影棚</span>
-        <span class="badge cgi-full">全CGI</span>
-        <span class="badge confidence-official">官方</span>
-      </div>
-    </div><div class="scene-card" data-id="b55adf5a-3a16-4295-8a31-552a2d7ce627">
-      <div class="real-name">10. 基隆旭川河岸</div>
-      
-      <div class="fictional-name">劇中：夜間河岸</div>
-      <div class="meta">
-        <span class="badge">河岸街道</span>
-        <span class="badge cgi-none">純實景</span>
-        <span class="badge confidence-community">社群驗證</span>
-      </div>
-    </div><div class="scene-card" data-id="61cc8791-17c9-4a69-867f-9449c30427f7">
-      <div class="real-name">11. 基隆中山陸橋</div>
-      
-      <div class="fictional-name">劇中：追逐陸橋</div>
-      <div class="meta">
-        <span class="badge">交通設施</span>
-        <span class="badge cgi-none">純實景</span>
-        <span class="badge confidence-estimated">待驗證</span>
-      </div>
-    </div><div class="scene-card" data-id="4412bb95-ae41-4ada-b99f-2a62782d938a">
-      <div class="real-name">12. 基隆廟口夜市</div>
-      
-      <div class="fictional-name">劇中：便衣行動夜市</div>
-      <div class="meta">
-        <span class="badge">夜市</span>
-        <span class="badge cgi-none">純實景</span>
-        <span class="badge confidence-official">官方</span>
-      </div>
-    </div></div>
 </aside>
 
-<div id="map" class="leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" tabindex="0" style="position: relative;"><div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);"><div class="leaflet-pane leaflet-tile-pane"><div class="leaflet-layer " style="z-index: 1; opacity: 1;"><div class="leaflet-tile-container leaflet-zoom-animated" style="z-index: 19; transform: translate3d(0px, 0px, 0px) scale(1);"><img alt="" src="./index_files/3504.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(265px, 121px, 0px); opacity: 1;"><img alt="" src="./index_files/3504(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(521px, 121px, 0px); opacity: 1;"><img alt="" src="./index_files/3505.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(265px, 377px, 0px); opacity: 1;"><img alt="" src="./index_files/3505(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(521px, 377px, 0px); opacity: 1;"><img alt="" src="./index_files/3503.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(265px, -135px, 0px); opacity: 1;"><img alt="" src="./index_files/3503(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(521px, -135px, 0px); opacity: 1;"><img alt="" src="./index_files/3504(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(9px, 121px, 0px); opacity: 1;"><img alt="" src="./index_files/3504(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(777px, 121px, 0px); opacity: 1;"><img alt="" src="./index_files/3505(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(9px, 377px, 0px); opacity: 1;"><img alt="" src="./index_files/3505(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(777px, 377px, 0px); opacity: 1;"><img alt="" src="./index_files/3506.png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(265px, 633px, 0px); opacity: 1;"><img alt="" src="./index_files/3506(1).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(521px, 633px, 0px); opacity: 1;"><img alt="" src="./index_files/3503(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(9px, -135px, 0px); opacity: 1;"><img alt="" src="./index_files/3503(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(777px, -135px, 0px); opacity: 1;"><img alt="" src="./index_files/3506(2).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(9px, 633px, 0px); opacity: 1;"><img alt="" src="./index_files/3506(3).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(777px, 633px, 0px); opacity: 1;"><img alt="" src="./index_files/3504(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-247px, 121px, 0px); opacity: 1;"><img alt="" src="./index_files/3504(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1033px, 121px, 0px); opacity: 1;"><img alt="" src="./index_files/3505(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-247px, 377px, 0px); opacity: 1;"><img alt="" src="./index_files/3505(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1033px, 377px, 0px); opacity: 1;"><img alt="" src="./index_files/3503(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-247px, -135px, 0px); opacity: 1;"><img alt="" src="./index_files/3503(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1033px, -135px, 0px); opacity: 1;"><img alt="" src="./index_files/3506(4).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(-247px, 633px, 0px); opacity: 1;"><img alt="" src="./index_files/3506(5).png" class="leaflet-tile leaflet-tile-loaded" style="width: 256px; height: 256px; transform: translate3d(1033px, 633px, 0px); opacity: 1;"></div></div></div><div class="leaflet-pane leaflet-overlay-pane"></div><div class="leaflet-pane leaflet-shadow-pane"></div><div class="leaflet-pane leaflet-marker-pane"><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(602px, 356px, 0px); z-index: 356;"><div class="custom-marker" style="background:#7A3520"><span>1</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(591px, 354px, 0px); z-index: 354;"><div class="custom-marker" style="background:#7A3520"><span>2</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(607px, 357px, 0px); z-index: 357;"><div class="custom-marker" style="background:#7A3520"><span>3</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(598px, 353px, 0px); z-index: 353;"><div class="custom-marker" style="background:#7A3520"><span>4</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(582px, 334px, 0px); z-index: 334;"><div class="custom-marker" style="background:#7A3520"><span>5</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(588px, 358px, 0px); z-index: 358;"><div class="custom-marker" style="background:#7A3520"><span>6</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(605px, 362px, 0px); z-index: 362;"><div class="custom-marker" style="background:#7A3520"><span>7</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(110px, 765px, 0px); z-index: 765;"><div class="custom-marker" style="background:#7A3520"><span>8</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(-1981px, 1550px, 0px); z-index: 1550;"><div class="custom-marker" style="background:#7A3520"><span>9</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(594px, 351px, 0px); z-index: 351;"><div class="custom-marker" style="background:#7A3520"><span>10</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(570px, 328px, 0px); z-index: 328;"><div class="custom-marker" style="background:#7A3520"><span>11</span></div></div><div class="leaflet-marker-icon custom-marker-wrapper leaflet-zoom-animated leaflet-interactive" tabindex="0" role="button" style="margin-left: -16px; margin-top: -32px; width: 32px; height: 32px; transform: translate3d(601px, 358px, 0px); z-index: 358;"><div class="custom-marker" style="background:#7A3520"><span>12</span></div></div></div><div class="leaflet-pane leaflet-tooltip-pane"></div><div class="leaflet-pane leaflet-popup-pane"></div><div class="leaflet-proxy leaflet-zoom-animated" style="transform: translate3d(1.75776e+06px, 897250px, 0px) scale(4096);"></div></div><div class="leaflet-control-container"><div class="leaflet-top leaflet-left"><div class="leaflet-control-zoom leaflet-bar leaflet-control"><a class="leaflet-control-zoom-in" href="file:///C:/Users/Wesley/Downloads/index_26.html#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false"><span aria-hidden="true">+</span></a><a class="leaflet-control-zoom-out" href="file:///C:/Users/Wesley/Downloads/index_26.html#" title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false"><span aria-hidden="true">−</span></a></div></div><div class="leaflet-top leaflet-right"></div><div class="leaflet-bottom leaflet-left"></div><div class="leaflet-bottom leaflet-right"><div class="leaflet-control-attribution leaflet-control"><a href="https://leafletjs.com/" title="A JavaScript library for interactive maps"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8" class="leaflet-attribution-flag"><path fill="#4C7BE1" d="M0 0h12v4H0z"></path><path fill="#FFD500" d="M0 4h12v3H0z"></path><path fill="#E0BC00" d="M0 7h12v1H0z"></path></svg> Leaflet</a> <span aria-hidden="true">|</span> © OpenStreetMap</div></div></div></div>
+<!-- Featured scene -->
+<div class="featured">
+  <button class="featured-collapse" onclick="document.body.classList.add(&#39;hide-right&#39;)" title="收起詳情">→</button>
+  <div class="featured-cover">
+    <div class="featured-num">01</div>
+    <div class="featured-label">— Scene still placeholder —</div>
+  </div>
+  <div class="featured-body">
+    <div class="featured-tag">NOW VIEWING</div>
+    <div class="featured-name">代明宮</div>
+    <div class="featured-fictional">↳ 劇中：東風市場宮廟</div>
+    <div class="featured-actions">
+      <button class="featured-btn">📍 我來朝聖</button>
+      <button class="featured-btn ghost">導航 ↗</button>
+    </div>
+
+    <div class="compare">
+      <div class="compare-label">劇中 ↔ 實景</div>
+      <div class="compare-grid">
+        <div class="compare-cell"><span class="compare-cell-tag">— 劇照 —</span></div>
+        <div class="compare-cell real"><span class="compare-cell-tag">— 實景 —</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reopen toggles -->
+<button class="toggle-panel" onclick="document.body.classList.remove(&#39;hide-left&#39;)" title="展開列表"><span class="ic">→</span></button>
+<button class="toggle-featured" onclick="document.body.classList.remove(&#39;hide-right&#39;)" title="展開詳情"><span class="ic">←</span></button>
 
 <script>
-// ── Supabase ──
-
+// ════════════════════════════════════════
+// Supabase 設定
+// ════════════════════════════════════════
 const SUPABASE_URL = 'https://kfrtfwrohoszeucilpwg.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_1dNNJDNkEATOO7v3ZBCDuA_oBOJat72';
+const supa = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function fetchScenes(slug) {
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/v_scene_full?select=*&slug=eq.${slug}`,
     { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
   );
-  if (!res.ok) throw new Error(`API 錯誤: ${res.status}`);
-  return (await res.json()).map(s => ({
-    id: s.scene_group_id, real: s.real_name,
-    fictional: s.fictional_name || '—', type: s.scene_type || '其他',
-    cgi: s.cgi_level || 'none', conf: s.lat_confidence || 'estimated',
-    lat: parseFloat(s.lat), lng: parseFloat(s.lng),
-    desc: s.visit_tips || '', tip: s.safety_note || s.visit_tips || ''
+  if (!res.ok) return [];
+  return (await res.json()).map((s, i) => ({
+    id: s.scene_group_id,
+    idx: i,
+    num: String(i + 1).padStart(2, '0'),
+    real: s.real_name,
+    fictional: s.fictional_name || '—',
+    type: s.scene_type || '其他',
+    cgi: s.cgi_level || 'none',
+    conf: s.lat_confidence || 'estimated',
+    lat: parseFloat(s.lat),
+    lng: parseFloat(s.lng),
+    desc: s.visit_tips || '',
+    tip: s.safety_note || s.visit_tips || ''
   }));
 }
 
-// ========================================
-// Supabase Auth + 打卡功能
-// ========================================
-const supa = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-let currentUser = null;
-let checkinLocationId = null;
-
-// 監聽登入狀態
-supa.auth.onAuthStateChange((event, session) => {
-  currentUser = session?.user || null;
-  updateAuthUI();
-});
-
-// 初始化時取得目前登入狀態
-supa.auth.getSession().then(({ data: { session } }) => {
-  currentUser = session?.user || null;
-  updateAuthUI();
-});
-
-function updateAuthUI() {
-  const btn    = document.getElementById('authBtn');
-  const info   = document.getElementById('userEmail');
-  if (currentUser) {
-    const name = currentUser.user_metadata?.full_name || currentUser.email;
-    const avatar = currentUser.user_metadata?.avatar_url;
-    info.innerHTML = avatar
-      ? `<img class="user-avatar" src="${avatar}" />${name}`
-      : name;
-    btn.textContent = '登出';
-    btn.className = 'auth-btn logout-btn';
-  } else {
-    info.textContent = '尚未登入';
-    btn.textContent = 'Google 登入';
-    btn.className = 'auth-btn login-btn';
-  }
-}
-
-async function handleAuth() {
-  if (currentUser) {
-    await supa.auth.signOut();
-  } else {
-    await supa.auth.signInWithOAuth({
-      provider: 'google',
-      options: { redirectTo: window.location.href }
-    });
-  }
-}
-
-// ── 打卡功能 ──
-function openCheckin(locationId, sceneName) {
-  if (!currentUser) {
-    alert('請先用 Google 登入才能打卡！');
-    return;
-  }
-  checkinLocationId = locationId;
-  document.getElementById('checkinTitle').textContent = '📍 打卡：' + sceneName;
-  document.getElementById('checkinNote').value = '';
-  document.getElementById('checkinPhoto').value = '';
-  document.getElementById('checkinModal').classList.add('show');
-}
-
-function closeCheckin() {
-  document.getElementById('checkinModal').classList.remove('show');
-  checkinLocationId = null;
-}
-
-async function submitCheckin() {
-  if (!checkinLocationId || !currentUser) return;
-
-  const note = document.getElementById('checkinNote').value.trim();
-  const photoFile = document.getElementById('checkinPhoto').files[0];
-  const btn = document.querySelector('.submit-btn');
-  btn.textContent = '上傳中...';
-  btn.disabled = true;
-
-  let photoUrl = null;
-
-  // 上傳照片到 Supabase Storage
-  if (photoFile) {
-    const ext = photoFile.name.split('.').pop();
-    const path = `checkins/${currentUser.id}/${Date.now()}.${ext}`;
-    const { data, error } = await supa.storage
-      .from('checkin-photos')
-      .upload(path, photoFile, { upsert: true });
-    if (!error) {
-      const { data: urlData } = supa.storage.from('checkin-photos').getPublicUrl(path);
-      photoUrl = urlData.publicUrl;
-    }
-  }
-
-  // 寫入打卡資料
-  const { error } = await supa.from('checkins').insert({
-    location_id: checkinLocationId,
-    user_id: currentUser.id,
-    note: note || null,
-    photo_url: photoUrl,
-    gps_verified: false
-  });
-
-  if (error) {
-    alert('打卡失敗：' + error.message);
-  } else {
-    closeCheckin();
-    alert('打卡成功！🎉');
-  }
-
-  btn.textContent = '確認打卡 ✓';
-  btn.disabled = false;
-}
-
-// 取得場景的打卡列表
-async function loadCheckins(locationId) {
-  const { data, error } = await supa
-    .from('checkins')
-    .select('*')
-    .eq('location_id', locationId)
-    .order('created_at', { ascending: false })
-    .limit(5);
-  return error ? [] : data;
-}
-
-// ── 作品設定 ──
+// ════════════════════════════════════════
+// 作品設定
+// ════════════════════════════════════════
 const WORKS = {
   'agent-from-above-2026': {
-    category: '台劇',
-    title: '乩身 · 朝聖地圖',
-    subtitle: 'Agent from Above · 12 個場景',
-    color: '#7A3520',
-    center: [25.13, 121.74],
-    zoom: 13,
-    route: {
-      title: '🚶 基隆乩身朝聖一日遊',
-      meta: '📍 從基隆車站出發\n🚶 步行＋公車 · 全天約 8 小時\n💡 傍晚抵達港口，夜景最美',
-      stops: [
-        { real: '罾仔頂三連棟',   time: '09:30', note: '晨光最美，追逐場景' },
-        { real: '東和大樓',       time: '10:00', note: '東風市場原型，外觀拍照' },
-        { real: '吉祥大樓',       time: '10:30', note: '老公寓外觀' },
-        { real: '代明宮',         time: '11:00', note: '開鏡地點，宮廟朝聖' },
-        { real: '基隆廟口夜市',   time: '12:00', note: '午餐！劇中夜市場景' },
-        { real: '基隆委託行商圈', time: '13:30', note: '市集場景，歷史街區' },
-        { real: '基隆護國城隍廟', time: '14:30', note: '邪派廟宇場景' },
-        { real: '基隆旭川河岸',   time: '15:30', note: '河岸漫步' },
-        { real: '基隆港西二碼頭', time: '16:30', note: '港口對峙，傍晚最美' },
-      ]
-    }
+    slug: 'agent-from-above-2026',
+    name: '乩身', glyph: '乩', en: 'Agent from Above · 基隆',
+    issue: 'ISSUE №01 — 2026 — 台劇', cat: '台劇',
+    color: '#7A3520', grad: 'linear-gradient(135deg,#3a1410,#7a3520)',
+    scenes: 12, verified: 8, trip: '8h',
+    center: [25.13, 121.74], zoom: 13,
+    route: [
+      { real: '罾仔頂三連棟', time: '09:30' },
+      { real: '東和大樓', time: '10:00' },
+      { real: '吉祥大樓', time: '10:30' },
+      { real: '代明宮', time: '11:00' },
+      { real: '基隆廟口夜市', time: '12:00' },
+      { real: '基隆委託行商圈', time: '13:30' },
+      { real: '基隆護國城隍廟', time: '14:30' },
+      { real: '基隆旭川河岸', time: '15:30' },
+      { real: '基隆港西二碼頭', time: '16:30' },
+    ]
+  },
+  'light-the-night-2021': {
+    slug: 'light-the-night-2021',
+    name: '華燈初上', glyph: '華', en: 'Light the Night · 台北條通',
+    issue: 'ISSUE №02 — 2021 — 台劇', cat: '台劇',
+    color: '#6B3A5A', grad: 'linear-gradient(135deg,#2a1a3a,#5a3a6a)',
+    scenes: 12, verified: 10, trip: '4h',
+    center: [25.05, 121.52], zoom: 14,
+    route: []
   },
   'port-of-lies-2023': {
-    category: '台劇',
-    title: '八尺門的辯護人 · 朝聖地圖',
-    subtitle: 'Port of Lies · 基隆 15 個場景',
-    color: '#2C5F7A',
-    center: [25.147, 121.772],
-    zoom: 14,
-    route: {
-      title: '⚖️ 八尺門朝聖一日遊',
-      meta: '📍 從基隆火車站出發\n🚶 步行＋公車 · 全天約 8 小時\n💡 八成場景在八尺門周邊步行可達',
-      stops: [
-        { real: '中山陸橋',        time: '09:00', note: '舒淇橋，光影最美' },
-        { real: '基隆委託行商圈',  time: '09:30', note: '歷史商圈，文青咖啡廳' },
-        { real: '天天鮮排骨飯',    time: '11:00', note: '寶哥最愛蝦仁排骨飯' },
-        { real: '正濱漁港彩色屋',  time: '13:00', note: '第一集開場場景' },
-        { real: '基隆漁會正濱大樓',time: '13:30', note: '導演推薦的昭和建築' },
-        { real: '阿根納造船廠遺構',time: '14:00', note: '廢墟工業場景，外觀拍照' },
-        { real: '八尺門漁港',      time: '14:30', note: '漁工生活核心場景' },
-        { real: '海濱國宅社區',    time: '15:00', note: '主角三人家的原民社區' },
-        { real: '和平島地質公園',  time: '16:00', note: '海蝕地景，傍晚海景最美' },
-      ]
-    }
+    slug: 'port-of-lies-2023',
+    name: '八尺門的辯護人', glyph: '八', en: 'Port of Lies · 基隆',
+    issue: 'ISSUE №03 — 2023 — 台劇', cat: '台劇',
+    color: '#1A4A6B', grad: 'linear-gradient(135deg,#1a2a3a,#3a4a6a)',
+    scenes: 10, verified: 8, trip: '6h',
+    center: [25.147, 121.771], zoom: 14,
+    route: []
   },
-    'port-of-lies-2023': {
-    category: '台劇',
-    title: '八尺門的辯護人 · 聖地',
-    subtitle: 'Port of Lies · 基隆八尺門 10 個場景',
-    color: '#1A4A6B',
-    center: [25.147, 121.771],
-    zoom: 14,
-    route: {
-      title: '⚖️ 八尺門朝聖一日遊',
-      meta: '📍 從基隆車站搭公車101出發\n🚶 步行可完成 · 約 6-8 小時\n💡 建議平日前往，假日人潮較多',
-      stops: [
-        { real: '基隆中山陸橋',   time: '09:00', note: '夢幻長廊，台鐵基隆站步行5分鐘' },
-        { real: '天天鮮排骨飯',   time: '11:00', note: '寶哥最愛排骨飯，早去避免賣完' },
-        { real: '正濱漁港彩色屋', time: '13:00', note: '台版威尼斯，主演殺青來此打卡' },
-        { real: '海濱國宅社區',   time: '13:30', note: '劇中阿美族聚落，輕步走過即可' },
-        { real: '阿根納造船廠遺構',time: '14:00', note: '廢墟工業風，外觀拍照勿入內' },
-        { real: '阿根納原味餐廳', time: '15:00', note: '道地阿美族料理，文化會館2樓' },
-        { real: '社寮橋',          time: '16:00', note: '八尺門水道上的跨海大橋' },
-        { real: '和平島地質公園', time: '16:30', note: '需購票，豆腐岩海蝕地形' },
-      ]
-    }
+  'till-we-meet-again-2021': {
+    slug: 'till-we-meet-again-2021',
+    name: '月老', glyph: '月', en: 'Till We Meet Again · 基隆',
+    issue: 'ISSUE №04 — 2021 — 台灣電影', cat: '台灣電影',
+    color: '#C0392B', grad: 'linear-gradient(135deg,#3a1020,#7a2040)',
+    scenes: 15, verified: 10, trip: '8h',
+    center: [25.13, 121.74], zoom: 12,
+    route: []
   },
-    'man-in-love-2021': {
-    category: '台灣電影',
-    title: '當男人戀愛時 · 聖地',
-    subtitle: 'Man In Love · 10 個場景',
-    color: '#C0392B',
-    center: [25.04, 121.49],
-    zoom: 12,
-    route: {
-      title: '💕 當男人戀愛時朝聖路線',
-      meta: '📍 從捷運龍山寺站出發\n🚌 搭捷運+公車 · 全天約 8 小時\n💡 建議週末前往，感受台式浪漫',
-      stops: [
-        { real: '龍來冰果室',      time: '10:00', note: '浩婷把果汁倒在阿成頭上的名場面' },
-        { real: '故鄉卡拉OK',      time: '11:30', note: '訂下約會合約書，點粉蒸肉必吃' },
-        { real: '先嗇宮',          time: '13:30', note: '阿成嚼甘蔗討債台客初登場' },
-        { real: 'E7PLAY保齡球新莊館', time: '15:00', note: '阿成跳魔性舞蹈求婚名場面' },
-        { real: '中義街乾麵',      time: '17:30', note: '兩人的分手麵店，必點烏醋乾麵' },
-        { real: '三芝區農會',      time: '另日', note: '浩婷上班地，農會提供制服拍照' },
-      ]
-    }
+  'man-in-love-2021': {
+    slug: 'man-in-love-2021',
+    name: '當男人戀愛時', glyph: '男', en: 'Man In Love · 新北',
+    issue: 'ISSUE №05 — 2021 — 台灣電影', cat: '台灣電影',
+    color: '#C0392B', grad: 'linear-gradient(135deg,#3a1a1a,#7a3030)',
+    scenes: 10, verified: 9, trip: '8h',
+    center: [25.04, 121.49], zoom: 12,
+    route: []
   },
-    'your-name-2016': {
-    category: '日本電影',
-    title: '君の名は。· 聖地巡禮',
-    subtitle: 'Your Name. · 東京＋岐阜＋長野 15 個場景',
-    color: '#E8567A',
-    center: [35.685, 139.719],
-    zoom: 13,
-    route: {
-      title: '🌠 東京四谷聖地一日遊',
-      meta: '📍 從四谷三丁目站出發\n🚶 步行可完成 · 約 4-5 小時\n💡 黃昏抵達須賀神社，光線最美',
-      stops: [
-        { real: '信濃町駅前歩道橋',   time: '10:00', note: '瀧撥電話給三葉的歩道橋' },
-        { real: 'Café La Bohème 新宿御苑店', time: '11:00', note: '瀧的打工餐廳，建議午餐' },
-        { real: '新宿駅南口歩道橋',   time: '13:00', note: '三葉喊「東京だ！」的地方' },
-        { real: '神宮外苑銀杏並木',   time: '14:00', note: '前前前世BGM散步場景' },
-        { real: '国立新美術館',        time: '15:00', note: '瀧與奧寺前輩約會場景' },
-        { real: '四谷三丁目周邊街道', time: '16:30', note: '三葉在東京尋找瀧' },
-        { real: '須賀神社',            time: '17:30', note: '最重要！黃昏最美，瀧與三葉重逢' },
-      ]
-    }
-  },
-    'till-we-meet-again-2021': {
-    category: '台灣電影',
-    title: '月老 · 朝聖地圖',
-    subtitle: 'Till We Meet Again · 15 個場景',
-    color: '#C0392B',
-    center: [25.13, 121.74],
-    zoom: 12,
-    route: {
-      title: '❤️ 月老朝聖一日遊',
-      meta: '📍 從基隆車站出發\n🚶 步行＋公車 · 全天約 8 小時\n💡 建議帶紅線道具重現劇中場景',
-      stops: [
-        { real: '基隆虎仔山地標',   time: '09:00', note: 'KEELUNG 大字，俯瞰基隆港' },
-        { real: '基隆正濱漁港',     time: '10:00', note: '彩色漁港，必拍' },
-        { real: '基隆阿根納造船廠', time: '10:30', note: '廢棄造船廠廢墟，電影感十足' },
-        { real: '基隆和平島公園',   time: '11:00', note: '海蝕地形，海景場景' },
-        { real: '基隆廟口夜市',     time: '12:00', note: '午餐！劇中夜市場景' },
-        { real: '基隆中正公園',     time: '13:30', note: '媽祖像俯瞰基隆港' },
-        { real: '蝙蝠洞公園籃球場',time: '15:00', note: '最重要！決戰場景，需開車' },
-        { real: '九份老街',          time: '17:00', note: '順遊九份看夜景' },
-      ]
-    }
-  },
-    'light-the-night-2021': {
-    category: '台劇',
-    title: '華燈初上 · 朝聖地圖',
-    subtitle: 'Light the Night · 台北 12 個場景',
-    color: '#6B3A5A',
-    center: [25.05, 121.52],
-    zoom: 14,
-    route: {
-      title: '🌙 條通夜間朝聖路線',
-      meta: '📍 捷運中山站集合，建議晚上7點出發\n🚶 全程步行 · 約 3-4 小時\n💡 夜間霓虹燈亮起最像劇中',
-      stops: [
-        { real: '天津大飯店（Vagus Hotel）', time: '19:15', note: '昭和復古飯店，外觀拍照' },
-        { real: '石洞PUB（My Place）',       time: '19:30', note: '撞球撩男場景，喝一杯' },
-        { real: '林森北路133巷（SKY旁）',    time: '20:30', note: '誤打成哥的條通巷道' },
-        { real: 'Sugar Bar',                  time: '21:00', note: '最重要！光HIKARI門口' },
-        { real: 'KOI戀',                      time: '21:30', note: '寶寶Sugar酒店內部' },
-        { real: '亞里士餐廳',                 time: '22:30', note: '蘿絲救場牛排館（建議改天午餐）' },
-      ]
-    }
+  'your-name-2016': {
+    slug: 'your-name-2016',
+    name: '你的名字', glyph: '名', en: 'Your Name. · 東京',
+    issue: 'ISSUE №06 — 2016 — 日本電影', cat: '日本電影',
+    color: '#E8567A', grad: 'linear-gradient(135deg,#2a2040,#5040a0)',
+    scenes: 15, verified: 15, trip: '5h',
+    center: [35.685, 139.719], zoom: 13,
+    route: []
   }
 };
 
+// ════════════════════════════════════════
+// 地圖初始化
+// ════════════════════════════════════════
+const map = L.map('map', { zoomControl: true, attributionControl: true })
+  .setView([25.131, 121.738], 14);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
-// ========================================
-// 分類篩選
-// ========================================
-function filterCategory(cat) {
-  // 更新分類按鈕狀態
-  document.querySelectorAll('.cat-btn').forEach(b => {
-    b.classList.toggle('active', b.textContent === cat || (cat === '全部' && b.textContent === '全部'));
-  });
-  // 顯示/隱藏作品按鈕
-  document.querySelectorAll('.work-btn').forEach(b => {
-    const btnCat = b.dataset.cat || '';
-    b.classList.toggle('hidden', cat !== '全部' && btnCat !== cat);
-  });
-}
-
-// ── 地圖 ──
-const map = L.map('map').setView([25.13, 121.74], 13);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '© OpenStreetMap', maxZoom: 19
-}).addTo(map);
-
-let routeLine = null;
-const markers = {};
+let allMarkers = [];
 let ALL_SCENES = [];
-let currentMode = 'all';
 let currentSlug = 'agent-from-above-2026';
+let currentMode = 'all';
+let routeLine = null;
+let currentUser = null;
+let checkinLocationId = null;
 
-function createMarkerIcon(label, color, isRoute) {
-  return L.divIcon({
-    className: 'custom-marker-wrapper',
-    html: `<div class="custom-marker${isRoute?' route-marker':''}" style="background:${isRoute?'#2A3A5A':color}"><span>${label}</span></div>`,
-    iconSize: [32,32], iconAnchor: [16,32], popupAnchor: [0,-28]
-  });
-}
+function cgiLabel(c) { return { full: '全CGI', partial: '含特效', none: '純實景' }[c] || c; }
 
-function renderMarkers(scenes, isRoute) {
-  Object.values(markers).forEach(m => map.removeLayer(m));
-  for (const k in markers) delete markers[k];
+function clearMarkers() {
+  allMarkers.forEach(m => map.removeLayer(m));
+  allMarkers = [];
   if (routeLine) { map.removeLayer(routeLine); routeLine = null; }
-
-  const w = WORKS[currentSlug];
-  const stops = w.route.stops;
-
-  scenes.forEach((s, i) => {
-    const stop = isRoute ? stops.find(r => r.real === s.real) : null;
-    const m = L.marker([s.lat, s.lng], {
-      icon: createMarkerIcon(i+1, w.color, isRoute)
-    }).addTo(map).bindPopup(`
-      <div class="popup-title">${s.real}</div>
-      ${stop ? `<div class="popup-time">🕐 ${stop.time} · ${stop.note}</div>` : ''}
-      <div class="popup-fictional">劇中：${s.fictional}</div>
-      <div class="popup-desc">${s.desc}</div>
-      ${s.tip ? `<div class="popup-tip">💡 ${s.tip}</div>` : ''}
-      <a href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}" target="_blank" style="display:block;text-align:center;margin-top:8px;padding:7px;background:#4285F4;color:white;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;">🗺️ Google Maps 導航</a>
-      <button class="checkin-btn" onclick="openCheckin('${s.id}', '${s.real}')">📍 我來朝聖了！</button>
-    `);
-    m.on('click', () => highlightCard(s.id));
-    markers[s.id] = m;
-  });
-
-  if (isRoute && scenes.length > 1) {
-    routeLine = L.polyline(scenes.map(s => [s.lat, s.lng]), {
-      color: '#2A3A5A', weight: 3, dashArray: '8,6', opacity: 0.8
-    }).addTo(map);
-    map.fitBounds(routeLine.getBounds(), { padding: [40,40] });
-  }
 }
 
-function cgiLabel(c) { return {full:'全CGI',partial:'含特效',none:'純實景'}[c]||c; }
-function confLabel(c) { return {official:'官方',community:'社群驗證',estimated:'待驗證'}[c]||c; }
-
-function renderList(scenes, isRoute) {
+function addMarker(scene, idx, isActive, isRoute) {
   const w = WORKS[currentSlug];
-  const stops = w.route.stops;
-  const list = document.getElementById('sceneList');
-  list.innerHTML = scenes.map((s, i) => {
-    const stop = isRoute ? stops.find(r => r.real === s.real) : null;
-    return `<div class="scene-card" data-id="${s.id}">
-      <div class="real-name">${isRoute?`<span class="stop-num">${i+1}</span>`:i+1+'. '}${s.real}</div>
-      ${stop ? `<div class="stop-time">🕐 ${stop.time} — ${stop.note}</div>` : ''}
-      <div class="fictional-name">劇中：${s.fictional}</div>
-      <div class="meta">
-        <span class="badge">${s.type}</span>
-        <span class="badge cgi-${s.cgi}">${cgiLabel(s.cgi)}</span>
-        <span class="badge confidence-${s.conf}">${confLabel(s.conf)}</span>
+  const color = w ? w.color : '#ff5b3a';
+  const m = L.marker([scene.lat, scene.lng], {
+    icon: L.divIcon({
+      className: '',
+      html: `<div class="marker${isActive ? ' is-active' : ' dim'}" data-id="${scene.id}" style="background:${isRoute ? '#2A3A5A' : color}">${scene.num}</div>`,
+      iconSize: [36, 36], iconAnchor: [18, 18]
+    })
+  }).addTo(map);
+  m.on('click', () => selectSceneById(scene.id));
+  allMarkers.push(m);
+  return m;
+}
+
+// ════════════════════════════════════════
+// 場景選擇
+// ════════════════════════════════════════
+function selectSceneById(id) {
+  const idx = ALL_SCENES.findIndex(s => s.id === id);
+  if (idx < 0) return;
+  selectScene(idx);
+}
+
+function selectScene(idx) {
+  const scene = ALL_SCENES[idx];
+  if (!scene) return;
+
+  // 更新列表高亮
+  document.querySelectorAll('.scene').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+  document.querySelector(`.scene:nth-child(${idx + 1})`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // 更新 marker
+  document.querySelectorAll('.marker').forEach(mk => {
+    mk.classList.remove('is-active');
+    mk.classList.add('dim');
+  });
+  const activePin = document.querySelector(`.marker[data-id="${scene.id}"]`);
+  if (activePin) {
+    activePin.classList.remove('dim');
+    void activePin.offsetWidth;
+    activePin.classList.add('is-active');
+  }
+
+  // 飛到場景
+  map.flyTo([scene.lat, scene.lng], 16, { duration: 0.8 });
+
+  // 更新右側卡片
+  updateFeatured(scene, idx);
+}
+
+function updateFeatured(scene, idx) {
+  const featured = document.querySelector('.featured');
+  if (!featured) return;
+  const w = WORKS[currentSlug];
+
+  featured.classList.add('is-swapping');
+  setTimeout(() => {
+    const fNum = featured.querySelector('.featured-num');
+    const fName = featured.querySelector('.featured-name');
+    const fFict = featured.querySelector('.featured-fictional');
+    const fCover = featured.querySelector('.featured-cover');
+    const fActions = featured.querySelector('.featured-actions');
+
+    if (fNum) fNum.textContent = scene.num;
+    if (fName) fName.textContent = scene.real;
+    if (fFict) fFict.textContent = '↳ 劇中：' + scene.fictional;
+    if (fCover) fCover.style.background = `linear-gradient(180deg, transparent 50%, rgba(20,20,26,0.9) 100%), linear-gradient(135deg, #2a0808, #1a0808)`;
+    if (fActions) fActions.innerHTML = `
+      <button class="featured-btn" onclick="openCheckin('${scene.id}', '${scene.real}')">📍 我來朝聖</button>
+      <button class="featured-btn ghost" onclick="window.open('https://www.google.com/maps/dir/?api=1&destination=${scene.lat},${scene.lng}','_blank')">導航 ↗</button>
+    `;
+
+    featured.classList.remove('is-swapping');
+    [fNum, fName, fFict].filter(Boolean).forEach(el => {
+      el.classList.remove('swap-target');
+      void el.offsetWidth;
+      el.classList.add('swap-target');
+    });
+  }, 220);
+}
+
+// ════════════════════════════════════════
+// 渲染場景列表
+// ════════════════════════════════════════
+function renderScenes(scenes, isRoute) {
+  const container = document.querySelector('.scenes');
+  if (!container) return;
+
+  const w = WORKS[currentSlug];
+  const routeStops = w ? w.route : [];
+
+  container.innerHTML = scenes.map((s, i) => {
+    const stop = isRoute ? routeStops.find(r => r.real === s.real) : null;
+    return `<div class="scene${i === 0 ? ' active' : ''}" data-id="${s.id}" data-idx="${i}">
+      <div class="scene-num">${s.num}<small>SCENE</small></div>
+      <div>
+        <div class="scene-real">${s.real}</div>
+        <div class="scene-fictional">${s.fictional}</div>
+        <div class="scene-meta">
+          <span class="badge">${s.type}</span>
+          <span class="badge cgi-${s.cgi}">${cgiLabel(s.cgi)}</span>
+          ${stop ? `<span class="scene-time">${stop.time}</span>` : ''}
+        </div>
       </div>
     </div>`;
   }).join('');
 
-  list.querySelectorAll('.scene-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const s = ALL_SCENES.find(x => x.id === card.dataset.id);
-      if (!s) return;
-      map.flyTo([s.lat, s.lng], 16, { duration: 0.8 });
-      markers[s.id]?.openPopup();
-      highlightCard(s.id);
+  container.querySelectorAll('.scene').forEach(el => {
+    el.addEventListener('click', () => {
+      const idx = parseInt(el.dataset.idx, 10);
+      selectScene(idx);
     });
   });
 }
 
-function highlightCard(id) {
-  document.querySelectorAll('.scene-card').forEach(c =>
-    c.classList.toggle('active', c.dataset.id === id));
-  document.querySelector(`.scene-card[data-id="${id}"]`)
-    ?.scrollIntoView({ behavior:'smooth', block:'nearest' });
-}
-
-function setMode(mode) {
-  currentMode = mode;
-  document.querySelectorAll('.mode-btn').forEach(b =>
-    b.classList.toggle('active', b.getAttribute('onclick').includes(`'${mode}'`)));
-  const isRoute = mode === 'route';
-  document.getElementById('filter').style.display    = isRoute ? 'none'  : 'block';
-  document.getElementById('routeInfo').style.display = isRoute ? 'block' : 'none';
-
-  if (isRoute) {
-    const stops = WORKS[currentSlug].route.stops;
-    const routeScenes = stops.map(s => ALL_SCENES.find(x => x.real === s.real)).filter(Boolean);
-    renderList(routeScenes, true);
-    renderMarkers(routeScenes, true);
-  } else {
-    const v = document.getElementById('filterSelect').value;
-    const filtered = v === 'all' ? ALL_SCENES : ALL_SCENES.filter(s => s.type === v);
-    renderList(filtered, false);
-    renderMarkers(filtered, false);
-  }
-}
-
+// ════════════════════════════════════════
+// 切換作品
+// ════════════════════════════════════════
 function switchWork(slug) {
-  // 清空搜尋
-  document.getElementById('searchInput').value = '';
-  document.getElementById('searchClear').classList.remove('show');
-  isSearching = false;
-
   currentSlug = slug;
   currentMode = 'all';
-
-  // 更新按鈕
-  document.querySelectorAll('.work-btn').forEach(b =>
-    b.classList.toggle('active', b.getAttribute('onclick').includes(slug)));
-  document.querySelectorAll('.mode-btn').forEach((b,i) =>
-    b.classList.toggle('active', i === 0));
-
-  // 更新標題與顏色
   const w = WORKS[slug];
-  document.getElementById('workTitle').textContent    = w.title;
-  document.getElementById('workSubtitle').textContent = w.subtitle;
-  document.getElementById('workHeader').style.background = w.color;
-  document.getElementById('routeTitle').textContent   = w.route.title;
-  document.getElementById('routeMeta').textContent    = w.route.meta;
+  if (!w) return;
+
+  // 更新 CSS 主題色
   document.documentElement.style.setProperty('--theme', w.color);
 
-  // 重設篩選與 UI
-  document.getElementById('filter').style.display    = 'block';
-  document.getElementById('routeInfo').style.display = 'none';
+  // 更新 pill 狀態
+  document.querySelectorAll('.work-pill').forEach(p => {
+    p.classList.toggle('active', p.dataset.slug === slug);
+  });
 
-  // 移到新作品地圖中心
+  // 更新 panel header
+  const issueEl = document.querySelector('.editorial-tag');
+  const titleEl = document.querySelector('.editorial-title');
+  const enEl    = document.querySelector('.editorial-en');
+  const statsEls = document.querySelectorAll('.stat-num');
+  if (issueEl) issueEl.textContent = w.issue;
+  if (titleEl) titleEl.textContent = w.name;
+  if (enEl)    enEl.textContent = w.en;
+  if (statsEls[0]) statsEls[0].textContent = w.scenes;
+  if (statsEls[1]) statsEls[1].textContent = w.verified;
+  if (statsEls[2]) statsEls[2].textContent = w.trip;
+
+  // 更新模式按鈕
+  const modes = document.querySelectorAll('.mode');
+  modes.forEach((m, i) => m.classList.toggle('active', i === 0));
+
+  // 飛到新作品中心
   map.flyTo(w.center, w.zoom, { duration: 1 });
 
   // 載入場景
-  document.getElementById('sceneList').innerHTML =
-    '<div style="padding:20px;color:#999;text-align:center">載入中...</div>';
+  document.querySelector('.scenes').innerHTML = '<div style="padding:20px;color:var(--muted);text-align:center">載入中...</div>';
+  clearMarkers();
 
   fetchScenes(slug).then(scenes => {
     ALL_SCENES = scenes;
-
-    // 更新篩選選項
-    const types = [...new Set(scenes.map(s => s.type))];
-    const sel = document.getElementById('filterSelect');
-    sel.innerHTML = `<option value="all">全部場景（${scenes.length}）</option>` +
-      types.map(t => `<option value="${t}">${t}</option>`).join('');
-
-    renderList(scenes, false);
-    renderMarkers(scenes, false);
-  }).catch(err => {
-    document.getElementById('sceneList').innerHTML =
-      `<div style="padding:20px;color:#c0392b">載入失敗<br><small>${err.message}</small></div>`;
+    renderScenes(scenes, false);
+    clearMarkers();
+    scenes.forEach((s, i) => addMarker(s, i, i === 0, false));
+    if (scenes[0]) {
+      map.flyTo([scenes[0].lat, scenes[0].lng], w.zoom, { duration: 0.5 });
+      updateFeatured(scenes[0], 0);
+    }
   });
 }
 
-document.getElementById('filterSelect').addEventListener('change', e => {
-  if (currentMode !== 'all') return;
-  const filtered = e.target.value === 'all' ? ALL_SCENES : ALL_SCENES.filter(s => s.type === e.target.value);
-  renderList(filtered, false);
-  renderMarkers(filtered, false);
-});
+// ════════════════════════════════════════
+// 模式切換（全部 / 路線）
+// ════════════════════════════════════════
+function setMode(mode) {
+  currentMode = mode;
+  const isRoute = mode === 'route';
+  const w = WORKS[currentSlug];
+  const routeStops = w ? w.route : [];
 
-// ========================================
-// 搜尋功能（跨所有作品）
-// ========================================
-let GLOBAL_SCENES = [];  // 所有作品的場景，用於搜尋
-let isSearching = false;
+  document.querySelectorAll('.mode').forEach((m, i) => {
+    m.classList.toggle('active', (i === 0 && !isRoute) || (i === 1 && isRoute));
+  });
 
-async function loadAllScenesForSearch() {
-  const slugs = Object.keys(WORKS);
+  if (isRoute && routeStops.length > 0) {
+    const routeScenes = routeStops.map(stop => ALL_SCENES.find(s => s.real === stop.real)).filter(Boolean);
+    renderScenes(routeScenes, true);
+    clearMarkers();
+    routeScenes.forEach((s, i) => addMarker(s, i, i === 0, true));
+    if (routeScenes.length > 1) {
+      routeLine = L.polyline(routeScenes.map(s => [s.lat, s.lng]), {
+        color: '#2A3A5A', weight: 3, dashArray: '8,6', opacity: 0.8
+      }).addTo(map);
+      map.fitBounds(routeLine.getBounds(), { padding: [40, 40] });
+    }
+  } else {
+    renderScenes(ALL_SCENES, false);
+    clearMarkers();
+    ALL_SCENES.forEach((s, i) => addMarker(s, i, i === 0, false));
+    if (ALL_SCENES[0]) map.flyTo([ALL_SCENES[0].lat, ALL_SCENES[0].lng], WORKS[currentSlug].zoom);
+  }
+}
+
+// ════════════════════════════════════════
+// 搜尋
+// ════════════════════════════════════════
+let GLOBAL_SCENES = [];
+
+async function loadAllForSearch() {
   const all = [];
-  for (const slug of slugs) {
-    try {
-      const scenes = await fetchScenes(slug);
-      scenes.forEach(s => all.push({ ...s, workSlug: slug }));
-    } catch (e) {}
+  for (const slug of Object.keys(WORKS)) {
+    const scenes = await fetchScenes(slug);
+    scenes.forEach(s => all.push({ ...s, workSlug: slug }));
   }
   GLOBAL_SCENES = all;
 }
 
 function doSearch(q) {
   q = q.trim().toLowerCase();
-  const clearBtn = document.getElementById('searchClear');
-
   if (!q) {
-    clearBtn.classList.remove('show');
-    isSearching = false;
-    // 回到正常模式
-    if (currentMode === 'route') setMode('route');
-    else setMode('all');
+    switchWork(currentSlug);
     return;
   }
-
-  clearBtn.classList.add('show');
-  isSearching = true;
-
-  // 跨作品搜尋
   const results = GLOBAL_SCENES.filter(s =>
     s.real.toLowerCase().includes(q) ||
-    (s.fictional && s.fictional.toLowerCase().includes(q)) ||
-    (s.desc && s.desc.toLowerCase().includes(q)) ||
-    (s.tip && s.tip.toLowerCase().includes(q)) ||
-    (s.type && s.type.toLowerCase().includes(q))
+    s.fictional.toLowerCase().includes(q) ||
+    s.type.toLowerCase().includes(q) ||
+    s.desc.toLowerCase().includes(q)
   );
-
-  renderSearchResults(results, q);
-}
-
-function renderSearchResults(results, q) {
-  // 隱藏路線模式
-  document.getElementById('filter').style.display = 'none';
-  document.getElementById('routeInfo').style.display = 'none';
-
-  const list = document.getElementById('sceneList');
-
-  if (results.length === 0) {
-    list.innerHTML = `<div class="search-empty">😢 找不到含「${q}」的場景<br><small>試試「廟」「夜市」「咖啡」</small></div>`;
-    Object.values(markers).forEach(m => map.removeLayer(m));
-    for (const k in markers) delete markers[k];
-    if (routeLine) { map.removeLayer(routeLine); routeLine = null; }
-    return;
-  }
-
-  // 依作品分組
-  const grouped = {};
-  results.forEach(s => {
-    if (!grouped[s.workSlug]) grouped[s.workSlug] = [];
-    grouped[s.workSlug].push(s);
-  });
-
-  // 渲染分組
-  let html = `<div class="search-section-title">🔍 ${results.length} 個結果</div>`;
-  for (const slug in grouped) {
-    const w = WORKS[slug];
-    const workName = w.title.replace(' · 朝聖地圖', '');
-    html += `<div class="search-section-title" style="color:${w.color};background:${w.color}11">📺 ${workName}（${grouped[slug].length}）</div>`;
-    grouped[slug].forEach((s, i) => {
-      html += `<div class="scene-card" data-id="${s.id}" data-work="${slug}">
-        <div class="real-name">${s.real}</div>
-        <div class="fictional-name">劇中：${s.fictional}</div>
-        <div class="meta">
-          <span class="badge">${s.type}</span>
-          <span class="badge cgi-${s.cgi}">${cgiLabel(s.cgi)}</span>
-        </div>
-      </div>`;
-    });
-  }
-  list.innerHTML = html;
-
-  // 渲染地圖標記（用對應作品的顏色）
-  Object.values(markers).forEach(m => map.removeLayer(m));
-  for (const k in markers) delete markers[k];
-  if (routeLine) { map.removeLayer(routeLine); routeLine = null; }
-
-  results.forEach((s, i) => {
-    const w = WORKS[s.workSlug];
-    const m = L.marker([s.lat, s.lng], {
-      icon: createMarkerIcon(i+1, w.color, false)
-    }).addTo(map).bindPopup(`
-      <div class="popup-title">${s.real}</div>
-      <div class="popup-fictional">${w.title.replace(' · 朝聖地圖','')} · ${s.fictional}</div>
-      <div class="popup-desc">${s.desc}</div>
-    `);
-    m.on('click', () => highlightCard(s.id));
-    markers[s.id] = m;
-  });
-
-  // 點搜尋結果切換到對應作品
-  document.querySelectorAll('.scene-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const id = card.dataset.id;
-      const slug = card.dataset.work;
-      const s = results.find(x => x.id === id);
-      if (!s) return;
-      map.flyTo([s.lat, s.lng], 16, { duration: 0.8 });
-      markers[id]?.openPopup();
-    });
-  });
-
-  // 自動縮放到所有結果
+  ALL_SCENES = results;
+  renderScenes(results, false);
+  clearMarkers();
+  results.forEach((s, i) => addMarker(s, i, false, false));
   if (results.length > 1) {
-    const bounds = L.latLngBounds(results.map(s => [s.lat, s.lng]));
-    map.fitBounds(bounds, { padding: [50,50], maxZoom: 13 });
+    map.fitBounds(L.latLngBounds(results.map(s => [s.lat, s.lng])), { padding: [50, 50] });
   } else if (results.length === 1) {
     map.flyTo([results[0].lat, results[0].lng], 15);
   }
 }
 
-function clearSearch() {
-  document.getElementById('searchInput').value = '';
-  doSearch('');
-}
-
-document.getElementById('searchInput').addEventListener('input', e => {
-  doSearch(e.target.value);
+// ════════════════════════════════════════
+// Auth + 打卡
+// ════════════════════════════════════════
+supa.auth.onAuthStateChange((event, session) => {
+  currentUser = session?.user || null;
+  updateAuthBtn();
+});
+supa.auth.getSession().then(({ data: { session } }) => {
+  currentUser = session?.user || null;
+  updateAuthBtn();
 });
 
-// 預載所有作品場景到記憶體
-loadAllScenesForSearch();
+function updateAuthBtn() {
+  const btn = document.querySelector('.auth-pill');
+  if (!btn) return;
+  btn.textContent = currentUser ? '登出' : '登入';
+  btn.onclick = currentUser
+    ? () => supa.auth.signOut()
+    : () => supa.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
+}
 
-// 初始載入
+function openCheckin(locationId, sceneName) {
+  if (!currentUser) { alert('請先 Google 登入才能打卡！'); return; }
+  checkinLocationId = locationId;
+  const modal = document.getElementById('checkinModal');
+  if (modal) {
+    document.getElementById('checkinTitle').textContent = '📍 打卡：' + sceneName;
+    document.getElementById('checkinNote').value = '';
+    document.getElementById('checkinPhoto').value = '';
+    modal.classList.add('show');
+  }
+}
+function closeCheckin() {
+  const modal = document.getElementById('checkinModal');
+  if (modal) modal.classList.remove('show');
+  checkinLocationId = null;
+}
+async function submitCheckin() {
+  if (!checkinLocationId || !currentUser) return;
+  const note = document.getElementById('checkinNote').value.trim();
+  const photoFile = document.getElementById('checkinPhoto').files[0];
+  const btn = document.querySelector('.submit-btn');
+  if (btn) { btn.textContent = '上傳中...'; btn.disabled = true; }
+  let photoUrl = null;
+  if (photoFile) {
+    const ext = photoFile.name.split('.').pop();
+    const path = `checkins/${currentUser.id}/${Date.now()}.${ext}`;
+    const { data, error } = await supa.storage.from('checkin-photos').upload(path, photoFile, { upsert: true });
+    if (!error) {
+      const { data: urlData } = supa.storage.from('checkin-photos').getPublicUrl(path);
+      photoUrl = urlData.publicUrl;
+    }
+  }
+  const { error } = await supa.from('checkins').insert({
+    location_id: checkinLocationId, user_id: currentUser.id,
+    note: note || null, photo_url: photoUrl, gps_verified: false
+  });
+  if (error) alert('打卡失敗：' + error.message);
+  else { closeCheckin(); alert('打卡成功！🎉'); }
+  if (btn) { btn.textContent = '確認打卡 ✓'; btn.disabled = false; }
+}
+
+// ════════════════════════════════════════
+// 分類篩選
+// ════════════════════════════════════════
+function filterCategory(cat) {
+  document.querySelectorAll('.nav-cat').forEach(b => {
+    b.classList.toggle('active', b.textContent === cat || (cat === '全部' && b.textContent === '全部'));
+  });
+  const pills = document.querySelectorAll('.work-pill');
+  pills.forEach(p => {
+    const w = WORKS[p.dataset.slug];
+    const show = cat === '全部' || (w && w.cat === cat);
+    p.style.display = show ? '' : 'none';
+  });
+}
+
+// ════════════════════════════════════════
+// 初始化
+// ════════════════════════════════════════
+document.querySelectorAll('.work-pill').forEach(p => {
+  p.addEventListener('click', () => switchWork(p.dataset.slug));
+});
+document.querySelectorAll('.nav-cat').forEach(c => {
+  c.addEventListener('click', () => filterCategory(c.textContent));
+});
+document.querySelectorAll('.mode').forEach((m, i) => {
+  m.addEventListener('click', () => setMode(i === 0 ? 'all' : 'route'));
+});
+
+const searchInput = document.querySelector('.nav-search');
+if (searchInput) {
+  searchInput.addEventListener('input', e => doSearch(e.target.value));
+}
+
+// 啟動：載入第一部作品
 switchWork('agent-from-above-2026');
+loadAllForSearch();
 </script>
 
 <!-- 打卡 Modal -->
-<div id="checkinModal">
-  <div id="checkinBox">
-    <h3 id="checkinTitle">📍 打卡</h3>
-    <textarea id="checkinNote" placeholder="留下你的朝聖心得...（選填）"></textarea>
-    <input type="file" id="checkinPhoto" accept="image/*">
-    <div class="btn-row">
-      <button class="cancel-btn" onclick="closeCheckin()">取消</button>
-      <button class="submit-btn" onclick="submitCheckin()">確認打卡 ✓</button>
+<div id="checkinModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#14141a;border:1px solid rgba(238,234,224,0.16);border-radius:12px;padding:24px;width:340px;max-width:90vw;">
+    <h3 id="checkinTitle" style="font-size:16px;color:#ff5b3a;margin-bottom:16px;">📍 打卡</h3>
+    <textarea id="checkinNote" placeholder="留下你的朝聖心得...（選填）" style="width:100%;padding:8px;border:1px solid rgba(238,234,224,0.16);border-radius:6px;font-size:13px;font-family:inherit;resize:none;height:80px;margin-bottom:10px;background:#08080a;color:#eeeae0;"></textarea>
+    <input type="file" id="checkinPhoto" accept="image/*" style="font-size:12px;margin-bottom:10px;color:#eeeae0;">
+    <div style="display:flex;gap:8px;">
+      <button onclick="closeCheckin()" style="padding:10px 16px;border:1px solid rgba(238,234,224,0.16);border-radius:6px;background:transparent;color:#eeeae0;font-size:14px;font-family:inherit;cursor:pointer;">取消</button>
+      <button class="submit-btn" onclick="submitCheckin()" style="flex:1;padding:10px;border:none;border-radius:6px;background:#ff5b3a;color:white;font-size:14px;font-family:inherit;cursor:pointer;font-weight:600;">確認打卡 ✓</button>
     </div>
   </div>
 </div>
-
 
 </body></html>
