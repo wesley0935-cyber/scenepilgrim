@@ -677,6 +677,11 @@
     <span class="work-pill-name">你的名字</span>
     <span class="work-pill-count">15</span>
   </div>
+  <div class="work-pill" data-slug="someday-or-oneday-2019">
+    <div class="work-glyph" style="background:linear-gradient(135deg,#1a2a40,#2a4a70)">想</div>
+    <span class="work-pill-name">💙 想見你</span>
+    <span class="work-pill-count">10</span>
+  </div>
 </div>
 
 <!-- Editorial panel -->
@@ -955,6 +960,22 @@ const WORKS = {
     scenes: 15, verified: 15, trip: '5h',
     center: [35.685, 139.719], zoom: 13,
     route: []
+  },
+  'someday-or-oneday-2019': {
+    slug: 'someday-or-oneday-2019',
+    name: '想見你', glyph: '想', en: 'Someday or One Day · 台南',
+    issue: 'ISSUE №09 — 2019 — 台劇', cat: '台劇',
+    color: '#5B7FA7', grad: 'linear-gradient(135deg,#1a2a40,#2a4a70)',
+    scenes: 10, verified: 10, trip: '8h',
+    center: [23.05, 120.28], zoom: 11,
+    route: [
+      { real: '鳳和高級中學',               time: '09:00' },
+      { real: '柳營 81-2 鄉道（上學路）',   time: '09:30' },
+      { real: '龍泉冰店（莫奶奶冰店）',     time: '11:00' },
+      { real: '小半樓（32唱片行）',         time: '14:00' },
+      { real: '閒情茗品屋（鍋燒意麵）',     time: '17:30' },
+      { real: '漁光島活動中心公園',         time: '19:00' },
+    ]
   }
 };
 
@@ -1323,14 +1344,4 @@ loadAllForSearch();
 <!-- 打卡 Modal -->
 <div id="checkinModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;">
   <div style="background:#14141a;border:1px solid rgba(238,234,224,0.16);border-radius:12px;padding:24px;width:340px;max-width:90vw;">
-    <h3 id="checkinTitle" style="font-size:16px;color:#ff5b3a;margin-bottom:16px;">📍 打卡</h3>
-    <textarea id="checkinNote" placeholder="留下你的朝聖心得...（選填）" style="width:100%;padding:8px;border:1px solid rgba(238,234,224,0.16);border-radius:6px;font-size:13px;font-family:inherit;resize:none;height:80px;margin-bottom:10px;background:#08080a;color:#eeeae0;"></textarea>
-    <input type="file" id="checkinPhoto" accept="image/*" style="font-size:12px;margin-bottom:10px;color:#eeeae0;">
-    <div style="display:flex;gap:8px;">
-      <button onclick="closeCheckin()" style="padding:10px 16px;border:1px solid rgba(238,234,224,0.16);border-radius:6px;background:transparent;color:#eeeae0;font-size:14px;font-family:inherit;cursor:pointer;">取消</button>
-      <button class="submit-btn" onclick="submitCheckin()" style="flex:1;padding:10px;border:none;border-radius:6px;background:#ff5b3a;color:white;font-size:14px;font-family:inherit;cursor:pointer;font-weight:600;">確認打卡 ✓</button>
-    </div>
-  </div>
-</div>
-
-</body></html>
+  
